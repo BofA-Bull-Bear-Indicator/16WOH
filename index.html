@@ -3,75 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>16 Weeks of Hell Tracker</title>
+    <title>16 Weeks of Hell - Pro</title>
     <style>
-        /* CSS för enkel och tydlig design */
-        body { font-family: sans-serif; background: #1a1a1a; color: white; padding: 20px; }
-        .container { max-width: 500px; margin: auto; background: #2a2a2a; padding: 20px; border-radius: 10px; }
-        h1 { color: #ff4d4d; text-align: center; }
-        .task { display: flex; align-items: center; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #444; }
-        input[type="checkbox"] { transform: scale(1.5); }
-        .progress-bar { background: #444; height: 20px; border-radius: 10px; margin: 20px 0; overflow: hidden; }
-        #fill { background: #ff4d4d; height: 100%; width: 0%; transition: width 0.3s; }
+        :root { --primary: #ff4d4d; --bg: #121212; --card: #1e1e1e; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: white; margin: 0; padding: 20px; }
+        .container { max-width: 600px; margin: auto; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .card { background: var(--card); padding: 20px; border-radius: 15px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        h2 { color: var(--primary); margin-top: 0; border-bottom: 1px solid #333; padding-bottom: 10px; }
+        .task-item { display: flex; align-items: center; gap: 15px; padding: 12px 0; border-bottom: 1px solid #2a2a2a; }
+        .task-item:last-child { border-bottom: none; }
+        input[type="checkbox"] { width: 22px; height: 22px; accent-color: var(--primary); }
+        .info-text { font-size: 0.9em; color: #bbb; line-height: 1.4; }
+        .badge { background: var(--primary); color: black; padding: 3px 8px; border-radius: 5px; font-weight: bold; font-size: 0.8em; }
+        select { background: #333; color: white; border: none; padding: 10px; border-radius: 5px; width: 100%; margin-bottom: 20px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Day <span id="day-number">1</span> / 112</h1>
-    
-    <div class="progress-bar">
-        <div id="fill"></div>
+    <div class="header">
+        <h1>16 WEEKS OF HELL</h1>
+        <select id="week-selector" onchange="updateView()">
+            </select>
     </div>
 
-    <div class="task">
-        <span>Morgonpromenad (60 min)</span>
-        <input type="checkbox" id="cardio" onclick="saveProgress()">
-    </div>
-    <div class="task">
-        <span>Gympass / Utmaning</span>
-        <input type="checkbox" id="gym" onclick="saveProgress()">
-    </div>
-    <div class="task">
-        <span>Följt kostschemat</span>
-        <input type="checkbox" id="diet" onclick="saveProgress()">
+    <div class="card">
+        <h2> Kostschema <span class="badge" id="diet-type">Vila</span></h2>
+        <div id="diet-content" class="info-text"></div>
+        <div class="task-item">
+            <input type="checkbox" id="check-diet" onclick="save()">
+            <span>Hållit kosten 100%</span>
+        </div>
+        <div class="task-item">
+            <input type="checkbox" id="check-water" onclick="save()">
+            <span>Druckit 3L+ vatten</span>
+        </div>
     </div>
 
-    <p style="text-align: center; margin-top: 20px; color: #888;">
-        Datan sparas automatiskt i din webbläsare.
-    </p>
+    <div class="card">
+        <h2> Dagens Träning</h2>
+        <div class="task-item">
+            <input type="checkbox" id="check-cardio" onclick="save()">
+            <div>
+                <strong>Morgon-Powerwalk</strong>
+                <div class="info-text">60-75 minuter i högt tempo innan frukost.</div>
+            </div>
+        </div>
+        <div class="task-item">
+            <input type="checkbox" id="check-gym" onclick="save()">
+            <div>
+                <strong>Styrkepass: <span id="workout-name">Ben & Mage</span></strong>
+                <div id="workout-details" class="info-text">Laddar pass...</div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>
-    // JavaScript för att hantera data
-    const tasks = ['cardio', 'gym', 'diet'];
-
-    // Laddar sparad data när sidan öppnas
-    window.onload = function() {
-        tasks.forEach(task => {
-            const saved = localStorage.getItem(task);
-            if (saved === 'true') {
-                document.getElementById(task).checked = true;
-            }
-        });
-        updateProgressBar();
+    // 1. Program-data
+    const program = {
+        1: { 
+            diet: "Fas 1: Uppstart. Inget socker, inget alkohol, strikt protein/fett/kolhydrat-ratio.",
+            workout: "Basstyrka: 4x12 repetitioner. Fokus på teknik.",
+            split: "Bröst & Triceps"
+        },
+        5: { 
+            diet: "Fas 2: Ökat proteinintag. Tuffare restriktioner kring kolhydrater på vilodagar.",
+            workout: "Heavy Duty: 3x6-8 repetitioner. Maxvikt.",
+            split: "Rygg & Biceps"
+        }
+        // Du kan fylla på med alla 16 veckor här
     };
 
-    // Sparar status till localStorage
-    function saveProgress() {
-        tasks.forEach(task => {
-            const isChecked = document.getElementById(task).checked;
-            localStorage.setItem(task, isChecked);
-        });
-        updateProgressBar();
+    // 2. Fyll i dropdown-menyn
+    const selector = document.getElementById('week-selector');
+    for (let i = 1; i <= 16; i++) {
+        let opt = document.createElement('option');
+        opt.value = i;
+        opt.innerHTML = 'Vecka ' + i;
+        selector.appendChild(opt);
     }
 
-    // Enkel funktion för att visa framsteg (baserat på dagens uppgifter)
-    function updateProgressBar() {
-        const checkedCount = tasks.filter(task => document.getElementById(task).checked).length;
-        const percentage = (checkedCount / tasks.length) * 100;
-        document.getElementById('fill').style.width = percentage + "%";
+    // 3. Uppdatera innehåll baserat på vecka
+    function updateView() {
+        const week = selector.value;
+        const data = program[week] || program[1]; // Fallback till vecka 1
+        
+        document.getElementById('diet-content').innerText = data.diet;
+        document.getElementById('workout-name').innerText = data.split;
+        document.getElementById('workout-details').innerText = data.workout;
+        
+        load(week); // Ladda sparad status för denna vecka
     }
+
+    // 4. Spara och Ladda (LocalStorage med vecka-prefix)
+    const keys = ['check-diet', 'check-water', 'check-cardio', 'check-gym'];
+
+    function save() {
+        const week = selector.value;
+        keys.forEach(key => {
+            const val = document.getElementById(key).checked;
+            localStorage.setItem(`w${week}-${key}`, val);
+        });
+    }
+
+    function load(week) {
+        keys.forEach(key => {
+            const saved = localStorage.getItem(`w${week}-${key}`);
+            document.getElementById(key).checked = (saved === 'true');
+        });
+    }
+
+    // Starta appen
+    updateView();
 </script>
 
 </body>
