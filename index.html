@@ -1,147 +1,398 @@
 <!DOCTYPE html>
 <html lang="sv">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>16 WOH - Daglig Guide</title>
-    <style>
-        :root {
-            --primary: #ff3e3e; --bg: #0b0b0b; --card: #181818;
-            --sidebar-bg: #000; --text: #fff; --text-dim: #b0b0b0;
-        }
-        body { font-family: sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; height: 100vh; overflow: hidden; }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-        /* Veckomeny */
-        .sidebar { width: 70px; background: var(--sidebar-bg); display: flex; flex-direction: column; align-items: center; overflow-y: auto; border-right: 1px solid #222; flex-shrink: 0; }
-        .week-btn { width: 45px; height: 45px; border-radius: 8px; border: 1px solid #333; background: #111; color: var(--text-dim); margin: 8px 0; cursor: pointer; font-weight: bold; }
-        .week-btn.active { background: var(--primary); color: #000; border-color: var(--primary); }
+<title>16 WOH - Ultimate Prep App</title>
 
-        /* Huvudinnehåll */
-        .main-content { flex: 1; padding: 20px; overflow-y: auto; }
-        .header { margin-bottom: 20px; }
-        .phase-badge { color: var(--primary); font-size: 0.8rem; font-weight: bold; text-transform: uppercase; border: 1px solid var(--primary); padding: 4px 10px; border-radius: 4px; }
+<style>
 
-        /* Dag-väljare */
-        .day-selector { display: flex; gap: 8px; margin: 20px 0; overflow-x: auto; padding-bottom: 10px; }
-        .day-btn { background: #222; border: 1px solid #333; color: white; padding: 8px 15px; border-radius: 20px; cursor: pointer; white-space: nowrap; }
-        .day-btn.active { background: white; color: black; border-color: white; }
+:root{
+    --primary:#ff3e3e;
+    --bg:#0b0b0b;
+    --card:#171717;
+    --text:#fff;
+    --text-dim:#9e9e9e;
+    --accent:#242424;
+    --green:#39d98a;
+}
 
-        /* Kort */
-        .intro-box { background: #1a1a1a; padding: 15px; border-radius: 10px; border-left: 4px solid var(--primary); margin-bottom: 20px; font-style: italic; font-size: 0.9rem; }
-        .section-title { color: var(--primary); text-transform: uppercase; font-size: 0.9rem; margin-top: 25px; border-bottom: 1px solid #333; padding-bottom: 5px; }
-        .card { background: var(--card); padding: 15px; border-radius: 10px; margin-top: 10px; border: 1px solid #222; }
-        .item-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #252525; }
-        .item-row:last-child { border-bottom: none; }
-    </style>
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Inter,sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    display:flex;
+    height:100vh;
+    overflow:hidden;
+}
+
+/* SIDEBAR */
+.sidebar{
+    width:74px;
+    background:#000;
+    border-right:1px solid #1f1f1f;
+    overflow-y:auto;
+    padding-top:10px;
+}
+
+.week-btn{
+    width:46px;
+    height:46px;
+    border:none;
+    border-radius:12px;
+    margin:8px auto;
+    display:block;
+    background:#111;
+    color:#888;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.week-btn.active{
+    background:var(--primary);
+    color:#000;
+}
+
+/* MAIN */
+.main{
+    flex:1;
+    overflow-y:auto;
+    padding:22px;
+}
+
+.phase{
+    color:var(--primary);
+    font-size:0.75rem;
+    text-transform:uppercase;
+    font-weight:700;
+}
+
+h1{margin:6px 0 14px 0;}
+
+/* STATS */
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-bottom:20px;
+}
+
+.stat{
+    background:var(--card);
+    border-radius:14px;
+    padding:14px;
+}
+
+.stat-label{font-size:0.75rem;color:#888;}
+.stat-value{font-size:1.3rem;font-weight:800;}
+
+/* DAY */
+.day-selector{
+    display:flex;
+    gap:10px;
+    overflow-x:auto;
+    margin-bottom:20px;
+}
+
+.day-btn{
+    background:var(--accent);
+    color:#aaa;
+    border:none;
+    padding:10px 14px;
+    border-radius:10px;
+    font-weight:700;
+    cursor:pointer;
+}
+
+.day-btn.active{
+    background:#fff;
+    color:#000;
+}
+
+/* TIMELINE */
+.timeline{position:relative;}
+.timeline::before{
+    content:'';
+    position:absolute;
+    left:16px;
+    top:0;
+    bottom:0;
+    width:2px;
+    background:#333;
+}
+
+.event{
+    position:relative;
+    padding-left:52px;
+    margin-bottom:22px;
+}
+
+.event::before{
+    content:'';
+    position:absolute;
+    left:8px;
+    top:4px;
+    width:14px;
+    height:14px;
+    border-radius:50%;
+    background:var(--primary);
+    border:4px solid var(--bg);
+}
+
+.time{color:var(--primary);font-size:0.7rem;font-weight:700;}
+
+.card{
+    background:var(--card);
+    border-radius:14px;
+    padding:14px;
+    margin-top:6px;
+}
+
+.title{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:6px;
+}
+
+.badge{
+    font-size:0.65rem;
+    background:#222;
+    padding:3px 6px;
+    border-radius:6px;
+}
+
+.desc{
+    color:#bbb;
+    white-space:pre-line;
+    line-height:1.4;
+}
+
+.macro{
+    margin-top:10px;
+    font-size:0.75rem;
+    color:#ddd;
+    background:#222;
+    padding:8px;
+    border-radius:10px;
+}
+
+/* SHOPPING */
+.shopping{
+    margin-top:30px;
+    background:var(--card);
+    padding:16px;
+    border-radius:14px;
+}
+
+.shopping-item{
+    color:#bbb;
+    margin-bottom:6px;
+}
+
+</style>
 </head>
+
 <body>
 
 <div class="sidebar" id="sidebar"></div>
 
-<div class="main-content">
-    <div id="content-area">
-        <div class="header">
-            <span id="phase-label" class="phase-badge">Laddar...</span>
-            <h1 id="week-label">Vecka 1</h1>
-        </div>
-        
-        <div id="intro-label" class="intro-box"></div>
+<div class="main">
 
-        <div class="day-selector" id="day-selector">
-            </div>
+<div class="phase" id="phase"></div>
+<h1 id="title"></h1>
 
-        <div class="section-title">Dagens Kost</div>
-        <div id="diet-list" class="card"></div>
-
-        <div class="section-title">Dagens Träningspass</div>
-        <div id="workout-list" class="card"></div>
+<div class="stats">
+    <div class="stat">
+        <div class="stat-label">Week</div>
+        <div class="stat-value" id="statWeek"></div>
+    </div>
+    <div class="stat">
+        <div class="stat-label">Progress</div>
+        <div class="stat-value" id="statPercent"></div>
+    </div>
+    <div class="stat">
+        <div class="stat-label">Calories</div>
+        <div class="stat-value" id="dailyCalories"></div>
     </div>
 </div>
 
+<div class="day-selector" id="daySelector"></div>
+
+<div class="timeline" id="timeline"></div>
+
+<div class="shopping">
+    <h2>Weekly Shopping List</h2>
+    <div id="shoppingList"></div>
+</div>
+
+</div>
+
 <script>
-    const daysArr = ["Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag", "Söndag"];
-    let currentWeek = 1;
-    let currentDay = "Måndag";
 
-    const programData = {
-        1: {
-            phase: "Fas 1: Shock",
-            intro: "Välkommen! Denna vecka fokuserar vi på att eliminera socker och bygga morgonrutiner.",
-            days: {
-                "Måndag": { diet: ["6 äggvitor", "1dl havregryn", "200g kyckling", "200g torsk"], workout: [{n:"Morgon-PW", v:"60m"}, {n:"Bröst/Triceps", v:"4x12"}] },
-                "Tisdag": { diet: ["Samma som måndag"], workout: [{n:"Morgon-PW", v:"60m"}, {n:"Rygg/Biceps", v:"4x12"}] },
-                "Onsdag": { diet: ["Samma som måndag"], workout: [{n:"Morgon-PW", v:"60m"}, {n:"Vila från gym", v: "-"}] },
-                "Torsdag": { diet: ["Samma som måndag"], workout: [{n:"Morgon-PW", v:"60m"}, {n:"Ben", v:"4x15"}] },
-                "Fredag": { diet: ["Samma som måndag"], workout: [{n:"Morgon-PW", v:"60m"}, {n:"Axlar/Mage", v:"4x12"}] },
-                "Lördag": { diet: ["Samma som måndag"], workout: [{n:"Morgon-PW", v:"60m"}, {n:"Löpning", v:"5km"}] },
-                "Söndag": { diet: ["Samma som måndag"], workout: [{n:"Morgon-PW", v:"60m"}, {n:"Aktiv vila", v:"Stretch"}] }
-            }
-        },
-        // Du kan nu enkelt kopiera strukturen ovan för vecka 2-16
-        2: {
-            phase: "Fas 1: Shock",
-            intro: "Vecka 2. Nu ökar vi intensiteten i gymmet. Håll vätskebalansen!",
-            days: {
-                "Måndag": { diet: ["Addera mandlar", "Kyckling & Broccoli"], workout: [{n:"Morgon-PW", v:"60m"}, {n:"Tung bröst", v:"5x5"}] },
-                // ... fyll på resterande dagar
-            }
-        }
-    };
+/* DAYS */
+const days=["Måndag","Tisdag","Onsdag","Torsdag","Fredag","Lördag","Söndag"];
 
-    // Rendera Veckomeny
-    const sidebar = document.getElementById('sidebar');
-    for (let i = 1; i <= 16; i++) {
-        const btn = document.createElement('button');
-        btn.innerText = i;
-        btn.className = 'week-btn' + (i === 1 ? ' active' : '');
-        btn.onclick = () => {
-            currentWeek = i;
-            document.querySelectorAll('.week-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            updateUI();
-        };
-        sidebar.appendChild(btn);
-    }
+/* STATE */
+let currentWeek=parseInt(localStorage.getItem("week"))||1;
+let currentDay=localStorage.getItem("day")||"Måndag";
 
-    // Rendera Dag-väljare
-    const daySelector = document.getElementById('day-selector');
-    daysArr.forEach(day => {
-        const btn = document.createElement('button');
-        btn.innerText = day;
-        btn.className = 'day-btn' + (day === "Måndag" ? ' active' : '');
-        btn.onclick = () => {
-            currentDay = day;
-            document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            updateUI();
-        };
-        daySelector.appendChild(btn);
-    });
+/* FOOD (DETAILED) */
+const breakfasts=[
+{
+name:"Proteinpannkakor",
+desc:`40g havregryn
+150g äggvita
+30g whey vanilj
+½ banan
+50g blåbär
+Kanel
 
-    function updateUI() {
-        const weekData = programData[currentWeek] || programData[1];
-        const dayData = weekData.days[currentDay] || weekData.days["Måndag"];
+Mixa & stek 2–3 min/sida.`,
+p:35,c:28,f:5,kcal:330
+},
+{
+name:"Kvarg bowl",
+desc:`300g kvarg 0%
+40g granola
+80g bär`,
+p:30,c:32,f:5,kcal:310
+}
+];
 
-        document.getElementById('phase-label').innerText = weekData.phase;
-        document.getElementById('week-label').innerText = `Vecka ${currentWeek} - ${currentDay}`;
-        document.getElementById('intro-label').innerText = weekData.intro;
+const proteins=[
+{name:"Kyckling 200g",desc:"Grillad kycklingfilé 200g",p:42,c:0,f:4,kcal:220},
+{name:"Torsk 200g",desc:"Ugnsbakad torsk 200g",p:40,c:0,f:2,kcal:180},
+{name:"Nötfärs 5% 180g",desc:"Stekt nötfärs 180g",p:38,c:0,f:9,kcal:260}
+];
 
-        // Rendera Diet
-        document.getElementById('diet-list').innerHTML = dayData.diet.map(item => `
-            <div class="item-row"><span>${item}</span></div>
-        `).join('');
+const carbs=[
+{name:"Ris 100g",desc:"Kokt jasminris 100g",p:3,c:28,f:0,kcal:130},
+{name:"Potatis 250g",desc:"Kokt potatis 250g",p:2,c:18,f:0,kcal:80}
+];
 
-        // Rendera Träning
-        document.getElementById('workout-list').innerHTML = dayData.workout.map(ex => `
-            <div class="item-row">
-                <strong>${ex.n}</strong>
-                <span style="color:var(--primary)">${ex.v}</span>
-            </div>
-        `).join('');
-    }
+const veggies=["Broccoli","Spenat","Sparris","Zucchini"];
 
-    updateUI();
+/* PROGRAM */
+const program={
+1:{phase:"Fas 1",split:["Bröst","Rygg","Ben","Axlar","Armar","Cardio","Vila"]},
+5:{phase:"Fas 2",split:["Bröst","Ben","Rygg","Axlar","Ben","HIIT","Vila"]},
+9:{phase:"Peak",split:["Push","Pull","Legs","Upper","Tömning","Walk","Vila"]},
+16:{phase:"Final",split:["Pump","Posing","Vila","Pump","Vila","SHOW","Recovery"]}
+};
+
+/* HELPERS */
+const r=a=>a[Math.floor(Math.random()*a.length)];
+const u=(a,e)=>a.filter(x=>!e.includes(x))[Math.floor(Math.random()*a.length)];
+
+function getProg(){
+return Object.keys(program).reverse().find(k=>currentWeek>=k);
+}
+
+/* SHOPPING (WEEKLY) */
+function shopping(){
+
+const map={};
+
+for(let i=0;i<7;i++){
+
+const b=r(breakfasts);
+const p=r(proteins);
+const c=r(carbs);
+const v1=r(veggies);
+const v2=u(veggies,[v1]);
+
+[b.name,p.name,c.name,v1,v2].forEach(x=>{
+map[x]=(map[x]||0)+1;
+});
+}
+
+document.getElementById("shoppingList").innerHTML=
+Object.entries(map)
+.sort((a,b)=>b[1]-a[1])
+.map(([k,v])=>`• ${k} × ${v}`)
+.join("<br>");
+}
+
+/* UI */
+function update(){
+
+const data=program[getProg()];
+const dayIndex=days.indexOf(currentDay);
+
+const b=r(breakfasts);
+const p=r(proteins);
+const c=r(carbs);
+
+const total=b.kcal+p.kcal+c.kcal;
+
+document.getElementById("dailyCalories").innerText=total+" kcal";
+
+document.getElementById("phase").innerText=data.phase;
+document.getElementById("title").innerText=`V${currentWeek} • ${currentDay}`;
+
+document.getElementById("statWeek").innerText=currentWeek+"/16";
+document.getElementById("statPercent").innerText=Math.floor(currentWeek/16*100)+"%";
+
+document.getElementById("timeline").innerHTML=
+
+render("08:00","Frukost",b)+
+render("12:00","Lunch",p,c)+
+render("17:00","Träning",data.split[dayIndex])+
+render("20:00","Middag",p);
+
+shopping();
+}
+
+/* RENDER */
+function render(time,title,a,b){
+
+const item=b?`${a.desc}\n+ ${b.desc}`:a.desc;
+
+return `
+<div class="event">
+<div class="time">${time}</div>
+<div class="card">
+<div class="title">
+<div>${title}</div>
+<div class="badge">MEAL</div>
+</div>
+<div class="desc">${item}</div>
+</div>
+</div>`;
+}
+
+/* INIT */
+function init(){
+
+const sb=document.getElementById("sidebar");
+
+for(let i=1;i<=16;i++){
+const btn=document.createElement("button");
+btn.className="week-btn";
+btn.innerText=i;
+btn.onclick=()=>{currentWeek=i;update();};
+sb.appendChild(btn);
+}
+
+days.forEach(d=>{
+const btn=document.createElement("button");
+btn.className="day-btn";
+btn.innerText=d;
+btn.onclick=()=>{currentDay=d;update();};
+document.getElementById("daySelector").appendChild(btn);
+});
+
+update();
+}
+
+init();
+
 </script>
-
 </body>
 </html>
