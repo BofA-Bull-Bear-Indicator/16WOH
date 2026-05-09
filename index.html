@@ -3,11 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
 <title>16 WOH - Ultimate Prep App</title>
-
 <style>
-
 :root{
     --primary:#ff3e3e;
     --bg:#0b0b0b;
@@ -17,12 +14,10 @@
     --accent:#242424;
     --green:#39d98a;
 }
-
 *{
     box-sizing:border-box;
     -webkit-tap-highlight-color:transparent;
 }
-
 body{
     margin:0;
     font-family:Inter,sans-serif;
@@ -32,7 +27,6 @@ body{
     height:100vh;
     overflow:hidden;
 }
-
 .sidebar{
     width:74px;
     background:#000;
@@ -41,7 +35,6 @@ body{
     flex-shrink:0;
     padding-top:10px;
 }
-
 .week-btn{
     width:46px;
     height:46px;
@@ -55,19 +48,16 @@ body{
     font-weight:700;
     transition:0.2s;
 }
-
 .week-btn.active{
     background:var(--primary);
     color:#000;
     transform:scale(1.05);
 }
-
 .main{
     flex:1;
     overflow-y:auto;
     padding:22px;
 }
-
 .phase{
     color:var(--primary);
     font-size:0.75rem;
@@ -75,11 +65,9 @@ body{
     letter-spacing:1px;
     font-weight:700;
 }
-
 h1{
     margin:6px 0 14px 0;
 }
-
 .progress-wrap{
     width:100%;
     height:12px;
@@ -88,38 +76,32 @@ h1{
     overflow:hidden;
     margin-bottom:20px;
 }
-
 .progress-fill{
     height:100%;
     background:linear-gradient(90deg,#ff3e3e,#ff8743);
     transition:0.3s;
 }
-
 .stats{
     display:grid;
     grid-template-columns:repeat(3,1fr);
     gap:12px;
     margin-bottom:20px;
 }
-
 .stat{
     background:var(--card);
     border-radius:16px;
     padding:14px;
     border:1px solid #252525;
 }
-
 .stat-label{
     color:#888;
     font-size:0.75rem;
 }
-
 .stat-value{
     font-size:1.4rem;
     font-weight:800;
     margin-top:4px;
 }
-
 .day-selector{
     display:flex;
     gap:10px;
@@ -127,7 +109,6 @@ h1{
     padding-bottom:10px;
     margin-bottom:20px;
 }
-
 .day-btn{
     border:none;
     background:var(--accent);
@@ -138,16 +119,13 @@ h1{
     white-space:nowrap;
     font-weight:700;
 }
-
 .day-btn.active{
     background:white;
     color:black;
 }
-
 .timeline{
     position:relative;
 }
-
 .timeline::before{
     content:'';
     position:absolute;
@@ -157,25 +135,16 @@ h1{
     width:2px;
     background:#333;
 }
-
 .event{
     position:relative;
     padding-left:52px;
     margin-bottom:24px;
     animation:fadeIn .25s ease;
 }
-
 @keyframes fadeIn{
-    from{
-        opacity:0;
-        transform:translateY(8px);
-    }
-    to{
-        opacity:1;
-        transform:translateY(0);
-    }
+    from{ opacity:0; transform:translateY(8px); }
+    to{ opacity:1; transform:translateY(0); }
 }
-
 .event::before{
     content:'';
     position:absolute;
@@ -187,14 +156,12 @@ h1{
     background:var(--primary);
     border:4px solid var(--bg);
 }
-
 .time{
     color:var(--primary);
     font-size:0.7rem;
     font-weight:700;
     margin-bottom:6px;
 }
-
 .card{
     background:var(--card);
     border:1px solid #262626;
@@ -203,34 +170,28 @@ h1{
     box-shadow:0 0 20px rgba(255,62,62,0.08);
     transition:0.2s;
 }
-
 .card:hover{
     transform:translateY(-2px);
 }
-
 .title{
     display:flex;
     justify-content:space-between;
     align-items:center;
     margin-bottom:8px;
 }
-
 .title-left{
     font-weight:700;
 }
-
 .badge{
     background:#282828;
     padding:4px 8px;
     border-radius:8px;
     font-size:0.65rem;
 }
-
 .desc{
     color:var(--text-dim);
     line-height:1.5;
 }
-
 .macro{
     margin-top:12px;
     padding:8px 10px;
@@ -239,7 +200,6 @@ h1{
     font-size:0.75rem;
     color:#ddd;
 }
-
 .exercise{
     background:#202020;
     padding:10px;
@@ -247,11 +207,18 @@ h1{
     margin-top:10px;
     color:#ccc;
 }
-
+.recipe {
+    background: rgba(255, 62, 62, 0.1);
+    border-left: 3px solid var(--primary);
+    padding: 10px;
+    border-radius: 6px;
+    margin-top: 10px;
+    font-size: 0.85rem;
+    color: #e0e0e0;
+}
 .check-row{
     margin-top:14px;
 }
-
 .check-btn{
     width:100%;
     border:none;
@@ -262,12 +229,10 @@ h1{
     cursor:pointer;
     font-weight:700;
 }
-
 .check-btn.done{
     background:var(--green);
     color:black;
 }
-
 .shopping{
     margin-top:40px;
     background:var(--card);
@@ -275,701 +240,282 @@ h1{
     padding:20px;
     border:1px solid #262626;
 }
-
 .shopping h2{
     margin-top:0;
 }
-
 .shopping-item{
     color:#bbb;
     margin-bottom:10px;
 }
-
 </style>
 </head>
-
 <body>
 
 <div class="sidebar" id="sidebar"></div>
 
 <div class="main">
-
     <div class="phase" id="phase"></div>
-
     <h1 id="title"></h1>
-
     <div class="progress-wrap">
         <div class="progress-fill" id="progressFill"></div>
     </div>
-
     <div class="stats">
-
         <div class="stat">
             <div class="stat-label">Week</div>
             <div class="stat-value" id="statWeek"></div>
         </div>
-
         <div class="stat">
             <div class="stat-label">Completion</div>
             <div class="stat-value" id="statPercent"></div>
         </div>
-
         <div class="stat">
             <div class="stat-label">Calories</div>
             <div class="stat-value" id="dailyCalories"></div>
         </div>
-
     </div>
-
     <div class="day-selector" id="daySelector"></div>
-
     <div class="timeline" id="timeline"></div>
-
     <div class="shopping">
-
         <h2>Weekly Shopping List</h2>
-
         <div id="shoppingList"></div>
-
     </div>
-
 </div>
 
 <script>
-
 /* DAYS */
-
-const days = [
-    "Måndag",
-    "Tisdag",
-    "Onsdag",
-    "Torsdag",
-    "Fredag",
-    "Lördag",
-    "Söndag"
-];
+const days = ["Måndag", "Tisdag", "Onsdag", "Torsdag", "Fredag", "Lördag", "Söndag"];
 
 /* STATE */
-
-let currentWeek =
-    parseInt(localStorage.getItem("week")) || 1;
-
-let currentDay =
-    localStorage.getItem("day") || "Måndag";
+let currentWeek = parseInt(localStorage.getItem("week")) || 1;
+let currentDay = localStorage.getItem("day") || "Måndag";
 
 /* BREAKFASTS */
-
 const breakfasts = [
-
     {
-        name:"6 Äggvitor + Havregryn",
-        p:32,c:38,f:4,kcal:320
+        name: "Äggvitor (200g) + Havregryn (40g)",
+        p: 32, c: 38, f: 4, kcal: 320,
+        recipe: "Koka havregrynen i vatten med en nypa salt. Stek äggvitorna separat eller blanda ner dem i gröten under omrörning för extra volym."
     },
-
     {
-        name:"Kvarg + Granola",
-        p:30,c:32,f:5,kcal:310
+        name: "Lättkvarg (250g) + Osötad Granola (30g)",
+        p: 30, c: 32, f: 5, kcal: 310,
+        recipe: "Blanda kvargen med lite vatten eller Fun Light för bättre konsistens. Toppa med granolan."
     },
-
     {
-        name:"Proteinpannkakor",
-        p:35,c:28,f:5,kcal:330
+        name: "Proteinpannkakor (1 portion)",
+        p: 35, c: 28, f: 5, kcal: 330,
+        recipe: "Mixa 1 skopa (30g) vassleprotein, 1 helt ägg, 100g äggvita och 20g havremjöl. Stek på medelvärme i lite teflonspray."
     },
-
     {
-        name:"Grekisk yoghurt 0% + Bär",
-        p:26,c:18,f:0,kcal:210
+        name: "Grekisk yoghurt 0% (200g) + Färska bär (100g)",
+        p: 26, c: 18, f: 0, kcal: 210
     },
-
     {
-        name:"Äggvitaomelett + Riskakor",
-        p:28,c:22,f:3,kcal:240
+        name: "Äggvitaomelett (200g) + Riskakor (2 st)",
+        p: 28, c: 22, f: 3, kcal: 240,
+        recipe: "Vispa 200g äggvita med salt och peppar. Stek med valfria grönsaker (t.ex. spenat). Ät tillsammans med 2 naturella riskakor."
     }
+];
 
+/* SNACKS (Mellanmål) */
+const snacks = [
+    {
+        name: "Proteinshake (30g) + 1 Äpple",
+        p: 25, c: 15, f: 2, kcal: 180
+    },
+    {
+        name: "Proteinshake (30g) + Riskaka (1 st)",
+        p: 25, c: 8, f: 2, kcal: 155
+    }
 ];
 
 /* PROTEIN */
-
 const proteins = [
-
-    {
-        name:"200g Kyckling",
-        p:42,c:0,f:4,kcal:220
-    },
-
-    {
-        name:"200g Torsk",
-        p:40,c:0,f:2,kcal:180
-    },
-
-    {
-        name:"180g Lax",
-        p:36,c:0,f:12,kcal:290
-    },
-
-    {
-        name:"180g Nötfärs 5%",
-        p:38,c:0,f:9,kcal:260
-    },
-
-    {
-        name:"220g Kalkon",
-        p:44,c:0,f:3,kcal:230
-    }
-
+    { name: "200g Kyckling", p: 42, c: 0, f: 4, kcal: 220 },
+    { name: "200g Torsk", p: 40, c: 0, f: 2, kcal: 180 },
+    { name: "180g Lax", p: 36, c: 0, f: 12, kcal: 290 },
+    { name: "180g Nötfärs 5%", p: 38, c: 0, f: 9, kcal: 260 },
+    { name: "220g Kalkon", p: 44, c: 0, f: 3, kcal: 230 }
 ];
 
 /* CARBS */
-
 const carbs = [
-
-    {
-        name:"100g Jasminris",
-        p:3,c:28,f:0,kcal:130
-    },
-
-    {
-        name:"100g Potatis",
-        p:2,c:18,f:0,kcal:80
-    },
-
-    {
-        name:"100g Sötpotatis",
-        p:2,c:22,f:0,kcal:95
-    },
-
-    {
-        name:"80g Quinoa",
-        p:4,c:20,f:2,kcal:120
-    }
-
+    { name: "100g Jasminris (kokt vikt)", p: 3, c: 28, f: 0, kcal: 130 },
+    { name: "150g Potatis", p: 3, c: 27, f: 0, kcal: 120 },
+    { name: "150g Sötpotatis", p: 3, c: 33, f: 0, kcal: 140 },
+    { name: "80g Quinoa (kokt vikt)", p: 4, c: 20, f: 2, kcal: 120 }
 ];
 
 /* VEGGIES */
-
-const veggies = [
-    "Broccoli",
-    "Sparris",
-    "Spenat",
-    "Paprika",
-    "Zucchini",
-    "Grönkål",
-    "Haricots verts"
-];
+const veggies = ["Broccoli (150g)", "Sparris (100g)", "Spenat (100g)", "Paprika (1 st)", "Zucchini (150g)"];
 
 /* WORKOUTS */
-
 const workouts = {
-
-    "Bröst/Triceps":[
-        "Incline Press 4x8",
-        "Flat DB Press 4x10",
-        "Cable Flyes 3x15",
-        "Dips 3xFailure"
-    ],
-
-    "Rygg/Biceps":[
-        "Barbell Row 4x8",
-        "Pulldown 4x12",
-        "Hammer Curl 3x12",
-        "EZ Curl 3x15"
-    ],
-
-    "Ben":[
-        "Squat 5x5",
-        "Leg Press 4x12",
-        "RDL 4x10",
-        "Walking Lunges"
-    ],
-
-    "Axlar":[
-        "Shoulder Press 4x10",
-        "Lateral Raises 5x15",
-        "Rear Delt Flyes"
-    ]
-
+    "Bröst/Triceps": ["Incline Press 4x8", "Flat DB Press 4x10", "Cable Flyes 3x15", "Dips 3xFailure"],
+    "Rygg/Biceps": ["Barbell Row 4x8", "Pulldown 4x12", "Hammer Curl 3x12", "EZ Curl 3x15"],
+    "Ben": ["Squat 5x5", "Leg Press 4x12", "RDL 4x10", "Walking Lunges"],
+    "Axlar": ["Shoulder Press 4x10", "Lateral Raises 5x15", "Rear Delt Flyes"]
 };
 
 /* PROGRAM */
-
 const program = {
-
-    1:{
-        phase:"Fas 1 - Shock",
-        cardio:"60m LISS • Incline 8 • Speed 5.5",
-        split:[
-            "Bröst/Triceps",
-            "Rygg/Biceps",
-            "Ben",
-            "Axlar",
-            "Bröst/Triceps",
-            "Kondition",
-            "Vila"
-        ]
-    },
-
-    5:{
-        phase:"Fas 2 - Grind",
-        cardio:"75m LISS • Incline 10 • Speed 5.8",
-        split:[
-            "Bröst/Triceps",
-            "Ben",
-            "Rygg/Biceps",
-            "Axlar",
-            "Ben",
-            "Intervaller",
-            "Vila"
-        ]
-    },
-
-    9:{
-        phase:"Fas 3 - Peak",
-        cardio:"90m Fasted Cardio",
-        split:[
-            "Dropset Bröst",
-            "Dropset Ben",
-            "Mage 300",
-            "Dropset Axlar",
-            "Tömning",
-            "Lång-PW",
-            "Vila"
-        ]
-    },
-
-    16:{
-        phase:"Peak Week",
-        cardio:"45m Pump Walk",
-        split:[
-            "Lätt Pump",
-            "Posering",
-            "Vila",
-            "Lätt Cirkel",
-            "Vila",
-            "SHOWDAY",
-            "Recovery"
-        ]
-    }
-
+    1: { phase: "Fas 1 - Shock", cardio: "60m LISS • Incline 8 • Speed 5.5", split: ["Bröst/Triceps", "Rygg/Biceps", "Ben", "Axlar", "Bröst/Triceps", "Kondition", "Vila"] },
+    5: { phase: "Fas 2 - Grind", cardio: "75m LISS • Incline 10 • Speed 5.8", split: ["Bröst/Triceps", "Ben", "Rygg/Biceps", "Axlar", "Ben", "Intervaller", "Vila"] },
+    9: { phase: "Fas 3 - Peak", cardio: "90m Fasted Cardio", split: ["Dropset Bröst", "Dropset Ben", "Mage 300", "Dropset Axlar", "Tömning", "Lång-PW", "Vila"] },
+    16: { phase: "Peak Week", cardio: "45m Pump Walk", split: ["Lätt Pump", "Posering", "Vila", "Lätt Cirkel", "Vila", "SHOWDAY", "Recovery"] }
 };
 
 /* HELPERS */
-
-function randomPick(arr){
-
-    return arr[
-        Math.floor(Math.random()*arr.length)
-    ];
-}
-
+function randomPick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
 function uniquePick(arr,exclude=[]){
-
-    const filtered =
-        arr.filter(x=>!exclude.includes(x));
-
-    return filtered[
-        Math.floor(Math.random()*filtered.length)
-    ];
+    const filtered = arr.filter(x=>!exclude.includes(x));
+    return filtered[Math.floor(Math.random()*filtered.length)];
 }
-
 function getProgramData(){
-
-    const key =
-        Object.keys(program)
-        .reverse()
-        .find(k=>currentWeek>=k);
-
+    const key = Object.keys(program).reverse().find(k=>currentWeek>=k);
     return program[key];
 }
 
 /* STORAGE */
-
 function saveState(){
-
     localStorage.setItem("week",currentWeek);
-
     localStorage.setItem("day",currentDay);
 }
 
 /* CHECKS */
-
 function toggleCheck(id){
-
-    const checks =
-        JSON.parse(localStorage.getItem("checks") || "{}");
-
+    const checks = JSON.parse(localStorage.getItem("checks") || "{}");
     checks[id]=!checks[id];
-
-    localStorage.setItem(
-        "checks",
-        JSON.stringify(checks)
-    );
-
+    localStorage.setItem("checks", JSON.stringify(checks));
     updateUI();
 }
-
 function isChecked(id){
-
-    const checks =
-        JSON.parse(localStorage.getItem("checks") || "{}");
-
+    const checks = JSON.parse(localStorage.getItem("checks") || "{}");
     return checks[id];
 }
 
-/* EVENT */
-
-function renderEvent(
-    time,
-    title,
-    desc,
-    type,
-    macros=null,
-    exercises=null
-){
-
-    const id =
-        `${currentWeek}-${currentDay}-${title}`;
-
+/* EVENT RENDERER */
+function renderEvent(time, title, desc, type, macros=null, exercises=null, recipe=null){
+    const id = `${currentWeek}-${currentDay}-${title}`;
     return `
-
         <div class="event">
-
             <div class="time">${time}</div>
-
             <div class="card">
-
                 <div class="title">
-
-                    <div class="title-left">
-                        ${title}
-                    </div>
-
-                    <div class="badge">
-                        ${type}
-                    </div>
-
+                    <div class="title-left">${title}</div>
+                    <div class="badge">${type}</div>
                 </div>
+                <div class="desc">${desc}</div>
+                
+                ${recipe ? `<div class="recipe"><strong>Recept:</strong> ${recipe}</div>` : ''}
+                
+                ${macros ? `
+                <div class="macro">
+                    ${macros.kcal} kcal • ${macros.p}P • ${macros.c}C • ${macros.f}F
+                </div>` : ''}
 
-                <div class="desc">
-                    ${desc}
-                </div>
-
-                ${
-                    macros
-                    ?
-                    `
-                    <div class="macro">
-
-                        ${macros.kcal} kcal •
-
-                        ${macros.p}P •
-
-                        ${macros.c}C •
-
-                        ${macros.f}F
-
-                    </div>
-                    `
-                    :
-                    ''
-                }
-
-                ${
-                    exercises
-                    ?
-                    exercises.map(ex=>`
-                        <div class="exercise">
-                            ${ex}
-                        </div>
-                    `).join('')
-                    :
-                    ''
-                }
+                ${exercises ? exercises.map(ex=>`<div class="exercise">${ex}</div>`).join('') : ''}
 
                 <div class="check-row">
-
-                    <button
-                        class="check-btn ${isChecked(id) ? 'done' : ''}"
-                        onclick="toggleCheck('${id}')"
-                    >
-
-                        ${isChecked(id)
-                            ? '✅ Completed'
-                            : 'Mark Complete'
-                        }
-
+                    <button class="check-btn ${isChecked(id) ? 'done' : ''}" onclick="toggleCheck('${id}')">
+                        ${isChecked(id) ? '✅ Completed' : 'Mark Complete'}
                     </button>
-
                 </div>
-
             </div>
-
         </div>
     `;
 }
 
 /* WEEKLY SHOPPING LIST */
-
 function generateShoppingList(){
-
     const shoppingMap = {};
-
     for(let i = 0; i < 7; i++){
+        const breakfast = randomPick(breakfasts);
+        const snack = randomPick(snacks);
+        const lunchProtein = randomPick(proteins);
+        const lunchCarb = randomPick(carbs);
+        const dinnerProtein = uniquePick(proteins, [lunchProtein]);
+        const veg1 = randomPick(veggies);
+        const veg2 = uniquePick(veggies, [veg1]);
 
-        const breakfast =
-            randomPick(breakfasts);
-
-        const lunchProtein =
-            randomPick(proteins);
-
-        const lunchCarb =
-            randomPick(carbs);
-
-        const dinnerProtein =
-            uniquePick(
-                proteins,
-                [lunchProtein]
-            );
-
-        const veg1 =
-            randomPick(veggies);
-
-        const veg2 =
-            uniquePick(
-                veggies,
-                [veg1]
-            );
-
-        const weeklyItems = [
-
-            breakfast.name,
-            lunchProtein.name,
-            lunchCarb.name,
-            dinnerProtein.name,
-            veg1,
-            veg2
-
-        ];
-
+        const weeklyItems = [breakfast.name, snack.name, lunchProtein.name, lunchCarb.name, dinnerProtein.name, veg1, veg2];
         weeklyItems.forEach(item=>{
-
-            shoppingMap[item] =
-                (shoppingMap[item] || 0) + 1;
+            shoppingMap[item] = (shoppingMap[item] || 0) + 1;
         });
     }
 
-    const sorted =
-        Object.entries(shoppingMap)
-        .sort((a,b)=>b[1]-a[1]);
-
+    const sorted = Object.entries(shoppingMap).sort((a,b)=>b[1]-a[1]);
     let html = '';
-
     sorted.forEach(([item,count])=>{
-
-        html += `
-
-            <div class="shopping-item">
-
-                • ${item}
-                <strong> × ${count}</strong>
-
-            </div>
-
-        `;
+        html += `<div class="shopping-item">• ${item} <strong> × ${count}</strong></div>`;
     });
-
-    document.getElementById("shoppingList")
-        .innerHTML = html;
+    document.getElementById("shoppingList").innerHTML = html;
 }
 
 /* UPDATE UI */
-
 function updateUI(){
-
-    document.querySelectorAll(".week-btn")
-        .forEach((btn,i)=>{
-
-            btn.classList.toggle(
-                "active",
-                i+1===currentWeek
-            );
-        });
-
-    document.querySelectorAll(".day-btn")
-        .forEach(btn=>{
-
-            btn.classList.toggle(
-                "active",
-                btn.innerText===currentDay
-            );
-        });
+    document.querySelectorAll(".week-btn").forEach((btn,i)=>{
+        btn.classList.toggle("active", i+1===currentWeek);
+    });
+    document.querySelectorAll(".day-btn").forEach(btn=>{
+        btn.classList.toggle("active", btn.innerText===currentDay);
+    });
 
     const data = getProgramData();
+    document.getElementById("phase").innerText=data.phase;
+    document.getElementById("title").innerText=`Week ${currentWeek} • ${currentDay}`;
 
-    document.getElementById("phase")
-        .innerText=data.phase;
+    const percent = Math.floor((currentWeek/16)*100);
+    document.getElementById("progressFill").style.width=`${percent}%`;
+    document.getElementById("statWeek").innerText=`${currentWeek}/16`;
+    document.getElementById("statPercent").innerText=`${percent}%`;
 
-    document.getElementById("title")
-        .innerText=`Week ${currentWeek} • ${currentDay}`;
+    const breakfast = randomPick(breakfasts);
+    const snack = randomPick(snacks);
+    const lunchProtein = randomPick(proteins);
+    const lunchCarb = randomPick(carbs);
+    const dinnerProtein = uniquePick(proteins, [lunchProtein]);
+    const veg1 = randomPick(veggies);
+    const veg2 = uniquePick(veggies, [veg1]);
 
-    const percent =
-        Math.floor((currentWeek/16)*100);
+    const totalCalories = breakfast.kcal + snack.kcal + lunchProtein.kcal + lunchCarb.kcal + dinnerProtein.kcal;
+    document.getElementById("dailyCalories").innerText = `${totalCalories} kcal`;
 
-    document.getElementById("progressFill")
-        .style.width=`${percent}%`;
-
-    document.getElementById("statWeek")
-        .innerText=`${currentWeek}/16`;
-
-    document.getElementById("statPercent")
-        .innerText=`${percent}%`;
-
-    const breakfast =
-        randomPick(breakfasts);
-
-    const lunchProtein =
-        randomPick(proteins);
-
-    const lunchCarb =
-        randomPick(carbs);
-
-    const dinnerProtein =
-        uniquePick(
-            proteins,
-            [lunchProtein]
-        );
-
-    const veg1 =
-        randomPick(veggies);
-
-    const veg2 =
-        uniquePick(
-            veggies,
-            [veg1]
-        );
-
-    const totalCalories =
-        breakfast.kcal +
-        lunchProtein.kcal +
-        lunchCarb.kcal +
-        dinnerProtein.kcal;
-
-    document.getElementById("dailyCalories")
-        .innerText = `${totalCalories} kcal`;
-
-    const workout =
-        data.split[
-            days.indexOf(currentDay)
-        ];
+    const workout = data.split[days.indexOf(currentDay)];
 
     document.getElementById("timeline").innerHTML=`
-
-        ${renderEvent(
-            "06:00",
-            "Morning Cardio",
-            data.cardio,
-            "CARDIO"
+        ${renderEvent("06:00", "Morning Cardio", data.cardio, "CARDIO")}
+        ${renderEvent("08:30", "Breakfast", breakfast.name, "MEAL", breakfast, null, breakfast.recipe)}
+        ${renderEvent("12:00", "Lunch", `${lunchProtein.name} + ${lunchCarb.name} + ${veg1}`, "MEAL", 
+            { p:lunchProtein.p + lunchCarb.p, c:lunchProtein.c + lunchCarb.c, f:lunchProtein.f + lunchCarb.f, kcal:lunchProtein.kcal + lunchCarb.kcal }
         )}
-
-        ${renderEvent(
-            "08:30",
-            "Breakfast",
-            breakfast.name,
-            "MEAL",
-            breakfast
-        )}
-
-        ${renderEvent(
-            "12:00",
-            "Lunch",
-            `${lunchProtein.name} + ${lunchCarb.name} + ${veg1}`,
-            "MEAL",
-            {
-                p:lunchProtein.p + lunchCarb.p,
-                c:lunchProtein.c + lunchCarb.c,
-                f:lunchProtein.f + lunchCarb.f,
-                kcal:lunchProtein.kcal + lunchCarb.kcal
-            }
-        )}
-
-        ${renderEvent(
-            "17:00",
-            "Workout",
-            workout,
-            "TRAINING",
-            null,
-            workouts[workout]
-        )}
-
-        ${renderEvent(
-            "20:00",
-            "Dinner",
-            `${dinnerProtein.name} + ${veg2}`,
-            "MEAL",
-            dinnerProtein
-        )}
-
+        ${renderEvent("15:00", "Mellanmål", snack.name, "MEAL", snack)}
+        ${renderEvent("17:00", "Workout", workout, "TRAINING", null, workouts[workout] || null)}
+        ${renderEvent("20:00", "Dinner", `${dinnerProtein.name} + ${veg2}`, "MEAL", dinnerProtein)}
     `;
 
     generateShoppingList();
 }
 
 /* INIT */
-
 function init(){
-
-    const sidebar =
-        document.getElementById("sidebar");
-
+    const sidebar = document.getElementById("sidebar");
     for(let i=1;i<=16;i++){
-
-        const btn =
-            document.createElement("button");
-
+        const btn = document.createElement("button");
         btn.className="week-btn";
-
         btn.innerText=i;
-
-        if(i===currentWeek){
-            btn.classList.add("active");
-        }
-
-        btn.onclick=()=>{
-
-            currentWeek=i;
-
-            saveState();
-
-            updateUI();
-        };
-
+        if(i===currentWeek) btn.classList.add("active");
+        btn.onclick=()=>{ currentWeek=i; saveState(); updateUI(); };
         sidebar.appendChild(btn);
     }
 
-    const daySelector =
-        document.getElementById("daySelector");
-
+    const daySelector = document.getElementById("daySelector");
     days.forEach(day=>{
-
-        const btn =
-            document.createElement("button");
-
+        const btn = document.createElement("button");
         btn.className="day-btn";
-
         btn.innerText=day;
-
-        if(day===currentDay){
-            btn.classList.add("active");
-        }
-
-        btn.onclick=()=>{
-
-            currentDay=day;
-
-            saveState();
-
-            updateUI();
-        };
-
+        if(day===currentDay) btn.classList.add("active");
+        btn.onclick=()=>{ currentDay=day; saveState(); updateUI(); };
         daySelector.appendChild(btn);
     });
 
@@ -977,8 +523,6 @@ function init(){
 }
 
 init();
-
 </script>
-
 </body>
 </html>
