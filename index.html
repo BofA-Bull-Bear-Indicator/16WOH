@@ -20,6 +20,7 @@
 
 *{
     box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
 }
 
 body{
@@ -32,12 +33,12 @@ body{
     overflow:hidden;
 }
 
-/* SIDEBAR */
 .sidebar{
     width:74px;
     background:#000;
     border-right:1px solid #1f1f1f;
     overflow-y:auto;
+    flex-shrink:0;
     padding-top:10px;
 }
 
@@ -50,16 +51,17 @@ body{
     display:block;
     background:#111;
     color:#888;
-    font-weight:700;
     cursor:pointer;
+    font-weight:700;
+    transition:0.2s;
 }
 
 .week-btn.active{
     background:var(--primary);
     color:#000;
+    transform:scale(1.05);
 }
 
-/* MAIN */
 .main{
     flex:1;
     overflow-y:auto;
@@ -70,12 +72,29 @@ body{
     color:var(--primary);
     font-size:0.75rem;
     text-transform:uppercase;
+    letter-spacing:1px;
     font-weight:700;
 }
 
-h1{margin:6px 0 14px 0;}
+h1{
+    margin:6px 0 14px 0;
+}
 
-/* STATS */
+.progress-wrap{
+    width:100%;
+    height:12px;
+    background:#1b1b1b;
+    border-radius:20px;
+    overflow:hidden;
+    margin-bottom:20px;
+}
+
+.progress-fill{
+    height:100%;
+    background:linear-gradient(90deg,#ff3e3e,#ff8743);
+    transition:0.3s;
+}
+
 .stats{
     display:grid;
     grid-template-columns:repeat(3,1fr);
@@ -85,38 +104,50 @@ h1{margin:6px 0 14px 0;}
 
 .stat{
     background:var(--card);
-    border-radius:14px;
+    border-radius:16px;
     padding:14px;
+    border:1px solid #252525;
 }
 
-.stat-label{font-size:0.75rem;color:#888;}
-.stat-value{font-size:1.3rem;font-weight:800;}
+.stat-label{
+    color:#888;
+    font-size:0.75rem;
+}
 
-/* DAY */
+.stat-value{
+    font-size:1.4rem;
+    font-weight:800;
+    margin-top:4px;
+}
+
 .day-selector{
     display:flex;
     gap:10px;
     overflow-x:auto;
+    padding-bottom:10px;
     margin-bottom:20px;
 }
 
 .day-btn{
+    border:none;
     background:var(--accent);
     color:#aaa;
-    border:none;
-    padding:10px 14px;
-    border-radius:10px;
-    font-weight:700;
+    padding:12px 18px;
+    border-radius:12px;
     cursor:pointer;
+    white-space:nowrap;
+    font-weight:700;
 }
 
 .day-btn.active{
-    background:#fff;
-    color:#000;
+    background:white;
+    color:black;
 }
 
-/* TIMELINE */
-.timeline{position:relative;}
+.timeline{
+    position:relative;
+}
+
 .timeline::before{
     content:'';
     position:absolute;
@@ -130,7 +161,19 @@ h1{margin:6px 0 14px 0;}
 .event{
     position:relative;
     padding-left:52px;
-    margin-bottom:22px;
+    margin-bottom:24px;
+    animation:fadeIn .25s ease;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(8px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
 }
 
 .event::before{
@@ -138,61 +181,108 @@ h1{margin:6px 0 14px 0;}
     position:absolute;
     left:8px;
     top:4px;
-    width:14px;
-    height:14px;
+    width:16px;
+    height:16px;
     border-radius:50%;
     background:var(--primary);
     border:4px solid var(--bg);
 }
 
-.time{color:var(--primary);font-size:0.7rem;font-weight:700;}
+.time{
+    color:var(--primary);
+    font-size:0.7rem;
+    font-weight:700;
+    margin-bottom:6px;
+}
 
 .card{
     background:var(--card);
-    border-radius:14px;
-    padding:14px;
-    margin-top:6px;
+    border:1px solid #262626;
+    border-radius:16px;
+    padding:16px;
+    box-shadow:0 0 20px rgba(255,62,62,0.08);
+    transition:0.2s;
+}
+
+.card:hover{
+    transform:translateY(-2px);
 }
 
 .title{
     display:flex;
     justify-content:space-between;
-    margin-bottom:6px;
+    align-items:center;
+    margin-bottom:8px;
+}
+
+.title-left{
+    font-weight:700;
 }
 
 .badge{
+    background:#282828;
+    padding:4px 8px;
+    border-radius:8px;
     font-size:0.65rem;
-    background:#222;
-    padding:3px 6px;
-    border-radius:6px;
 }
 
 .desc{
-    color:#bbb;
-    white-space:pre-line;
-    line-height:1.4;
+    color:var(--text-dim);
+    line-height:1.5;
 }
 
 .macro{
-    margin-top:10px;
+    margin-top:12px;
+    padding:8px 10px;
+    background:#202020;
+    border-radius:10px;
     font-size:0.75rem;
     color:#ddd;
-    background:#222;
-    padding:8px;
-    border-radius:10px;
 }
 
-/* SHOPPING */
+.exercise{
+    background:#202020;
+    padding:10px;
+    border-radius:10px;
+    margin-top:10px;
+    color:#ccc;
+}
+
+.check-row{
+    margin-top:14px;
+}
+
+.check-btn{
+    width:100%;
+    border:none;
+    background:#262626;
+    color:white;
+    padding:10px;
+    border-radius:10px;
+    cursor:pointer;
+    font-weight:700;
+}
+
+.check-btn.done{
+    background:var(--green);
+    color:black;
+}
+
 .shopping{
-    margin-top:30px;
+    margin-top:40px;
     background:var(--card);
-    padding:16px;
-    border-radius:14px;
+    border-radius:18px;
+    padding:20px;
+    border:1px solid #262626;
+}
+
+.shopping h2{
+    margin-top:0;
 }
 
 .shopping-item{
     color:#bbb;
-    margin-bottom:6px;
+    margin-bottom:10px;
 }
 
 </style>
@@ -204,195 +294,691 @@ h1{margin:6px 0 14px 0;}
 
 <div class="main">
 
-<div class="phase" id="phase"></div>
-<h1 id="title"></h1>
+    <div class="phase" id="phase"></div>
 
-<div class="stats">
-    <div class="stat">
-        <div class="stat-label">Week</div>
-        <div class="stat-value" id="statWeek"></div>
+    <h1 id="title"></h1>
+
+    <div class="progress-wrap">
+        <div class="progress-fill" id="progressFill"></div>
     </div>
-    <div class="stat">
-        <div class="stat-label">Progress</div>
-        <div class="stat-value" id="statPercent"></div>
+
+    <div class="stats">
+
+        <div class="stat">
+            <div class="stat-label">Week</div>
+            <div class="stat-value" id="statWeek"></div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">Completion</div>
+            <div class="stat-value" id="statPercent"></div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">Calories</div>
+            <div class="stat-value" id="dailyCalories"></div>
+        </div>
+
     </div>
-    <div class="stat">
-        <div class="stat-label">Calories</div>
-        <div class="stat-value" id="dailyCalories"></div>
+
+    <div class="day-selector" id="daySelector"></div>
+
+    <div class="timeline" id="timeline"></div>
+
+    <div class="shopping">
+
+        <h2>Weekly Shopping List</h2>
+
+        <div id="shoppingList"></div>
+
     </div>
-</div>
-
-<div class="day-selector" id="daySelector"></div>
-
-<div class="timeline" id="timeline"></div>
-
-<div class="shopping">
-    <h2>Weekly Shopping List</h2>
-    <div id="shoppingList"></div>
-</div>
 
 </div>
 
 <script>
 
 /* DAYS */
-const days=["Måndag","Tisdag","Onsdag","Torsdag","Fredag","Lördag","Söndag"];
+
+const days = [
+    "Måndag",
+    "Tisdag",
+    "Onsdag",
+    "Torsdag",
+    "Fredag",
+    "Lördag",
+    "Söndag"
+];
 
 /* STATE */
-let currentWeek=parseInt(localStorage.getItem("week"))||1;
-let currentDay=localStorage.getItem("day")||"Måndag";
 
-/* FOOD (DETAILED) */
-const breakfasts=[
-{
-name:"Proteinpannkakor",
-desc:`40g havregryn
-150g äggvita
-30g whey vanilj
-½ banan
-50g blåbär
-Kanel
+let currentWeek =
+    parseInt(localStorage.getItem("week")) || 1;
 
-Mixa & stek 2–3 min/sida.`,
-p:35,c:28,f:5,kcal:330
-},
-{
-name:"Kvarg bowl",
-desc:`300g kvarg 0%
-40g granola
-80g bär`,
-p:30,c:32,f:5,kcal:310
-}
+let currentDay =
+    localStorage.getItem("day") || "Måndag";
+
+/* BREAKFASTS */
+
+const breakfasts = [
+
+    {
+        name:"6 Äggvitor + Havregryn",
+        p:32,c:38,f:4,kcal:320
+    },
+
+    {
+        name:"Kvarg + Granola",
+        p:30,c:32,f:5,kcal:310
+    },
+
+    {
+        name:"Proteinpannkakor",
+        p:35,c:28,f:5,kcal:330
+    },
+
+    {
+        name:"Grekisk yoghurt 0% + Bär",
+        p:26,c:18,f:0,kcal:210
+    },
+
+    {
+        name:"Äggvitaomelett + Riskakor",
+        p:28,c:22,f:3,kcal:240
+    }
+
 ];
 
-const proteins=[
-{name:"Kyckling 200g",desc:"Grillad kycklingfilé 200g",p:42,c:0,f:4,kcal:220},
-{name:"Torsk 200g",desc:"Ugnsbakad torsk 200g",p:40,c:0,f:2,kcal:180},
-{name:"Nötfärs 5% 180g",desc:"Stekt nötfärs 180g",p:38,c:0,f:9,kcal:260}
+/* PROTEIN */
+
+const proteins = [
+
+    {
+        name:"200g Kyckling",
+        p:42,c:0,f:4,kcal:220
+    },
+
+    {
+        name:"200g Torsk",
+        p:40,c:0,f:2,kcal:180
+    },
+
+    {
+        name:"180g Lax",
+        p:36,c:0,f:12,kcal:290
+    },
+
+    {
+        name:"180g Nötfärs 5%",
+        p:38,c:0,f:9,kcal:260
+    },
+
+    {
+        name:"220g Kalkon",
+        p:44,c:0,f:3,kcal:230
+    }
+
 ];
 
-const carbs=[
-{name:"Ris 100g",desc:"Kokt jasminris 100g",p:3,c:28,f:0,kcal:130},
-{name:"Potatis 250g",desc:"Kokt potatis 250g",p:2,c:18,f:0,kcal:80}
+/* CARBS */
+
+const carbs = [
+
+    {
+        name:"100g Jasminris",
+        p:3,c:28,f:0,kcal:130
+    },
+
+    {
+        name:"100g Potatis",
+        p:2,c:18,f:0,kcal:80
+    },
+
+    {
+        name:"100g Sötpotatis",
+        p:2,c:22,f:0,kcal:95
+    },
+
+    {
+        name:"80g Quinoa",
+        p:4,c:20,f:2,kcal:120
+    }
+
 ];
 
-const veggies=["Broccoli","Spenat","Sparris","Zucchini"];
+/* VEGGIES */
+
+const veggies = [
+    "Broccoli",
+    "Sparris",
+    "Spenat",
+    "Paprika",
+    "Zucchini",
+    "Grönkål",
+    "Haricots verts"
+];
+
+/* WORKOUTS */
+
+const workouts = {
+
+    "Bröst/Triceps":[
+        "Incline Press 4x8",
+        "Flat DB Press 4x10",
+        "Cable Flyes 3x15",
+        "Dips 3xFailure"
+    ],
+
+    "Rygg/Biceps":[
+        "Barbell Row 4x8",
+        "Pulldown 4x12",
+        "Hammer Curl 3x12",
+        "EZ Curl 3x15"
+    ],
+
+    "Ben":[
+        "Squat 5x5",
+        "Leg Press 4x12",
+        "RDL 4x10",
+        "Walking Lunges"
+    ],
+
+    "Axlar":[
+        "Shoulder Press 4x10",
+        "Lateral Raises 5x15",
+        "Rear Delt Flyes"
+    ]
+
+};
 
 /* PROGRAM */
-const program={
-1:{phase:"Fas 1",split:["Bröst","Rygg","Ben","Axlar","Armar","Cardio","Vila"]},
-5:{phase:"Fas 2",split:["Bröst","Ben","Rygg","Axlar","Ben","HIIT","Vila"]},
-9:{phase:"Peak",split:["Push","Pull","Legs","Upper","Tömning","Walk","Vila"]},
-16:{phase:"Final",split:["Pump","Posing","Vila","Pump","Vila","SHOW","Recovery"]}
+
+const program = {
+
+    1:{
+        phase:"Fas 1 - Shock",
+        cardio:"60m LISS • Incline 8 • Speed 5.5",
+        split:[
+            "Bröst/Triceps",
+            "Rygg/Biceps",
+            "Ben",
+            "Axlar",
+            "Bröst/Triceps",
+            "Kondition",
+            "Vila"
+        ]
+    },
+
+    5:{
+        phase:"Fas 2 - Grind",
+        cardio:"75m LISS • Incline 10 • Speed 5.8",
+        split:[
+            "Bröst/Triceps",
+            "Ben",
+            "Rygg/Biceps",
+            "Axlar",
+            "Ben",
+            "Intervaller",
+            "Vila"
+        ]
+    },
+
+    9:{
+        phase:"Fas 3 - Peak",
+        cardio:"90m Fasted Cardio",
+        split:[
+            "Dropset Bröst",
+            "Dropset Ben",
+            "Mage 300",
+            "Dropset Axlar",
+            "Tömning",
+            "Lång-PW",
+            "Vila"
+        ]
+    },
+
+    16:{
+        phase:"Peak Week",
+        cardio:"45m Pump Walk",
+        split:[
+            "Lätt Pump",
+            "Posering",
+            "Vila",
+            "Lätt Cirkel",
+            "Vila",
+            "SHOWDAY",
+            "Recovery"
+        ]
+    }
+
 };
 
 /* HELPERS */
-const r=a=>a[Math.floor(Math.random()*a.length)];
-const u=(a,e)=>a.filter(x=>!e.includes(x))[Math.floor(Math.random()*a.length)];
 
-function getProg(){
-return Object.keys(program).reverse().find(k=>currentWeek>=k);
+function randomPick(arr){
+
+    return arr[
+        Math.floor(Math.random()*arr.length)
+    ];
 }
 
-/* SHOPPING (WEEKLY) */
-function shopping(){
+function uniquePick(arr,exclude=[]){
 
-const map={};
+    const filtered =
+        arr.filter(x=>!exclude.includes(x));
 
-for(let i=0;i<7;i++){
-
-const b=r(breakfasts);
-const p=r(proteins);
-const c=r(carbs);
-const v1=r(veggies);
-const v2=u(veggies,[v1]);
-
-[b.name,p.name,c.name,v1,v2].forEach(x=>{
-map[x]=(map[x]||0)+1;
-});
+    return filtered[
+        Math.floor(Math.random()*filtered.length)
+    ];
 }
 
-document.getElementById("shoppingList").innerHTML=
-Object.entries(map)
-.sort((a,b)=>b[1]-a[1])
-.map(([k,v])=>`• ${k} × ${v}`)
-.join("<br>");
+function getProgramData(){
+
+    const key =
+        Object.keys(program)
+        .reverse()
+        .find(k=>currentWeek>=k);
+
+    return program[key];
 }
 
-/* UI */
-function update(){
+/* STORAGE */
 
-const data=program[getProg()];
-const dayIndex=days.indexOf(currentDay);
+function saveState(){
 
-const b=r(breakfasts);
-const p=r(proteins);
-const c=r(carbs);
+    localStorage.setItem("week",currentWeek);
 
-const total=b.kcal+p.kcal+c.kcal;
-
-document.getElementById("dailyCalories").innerText=total+" kcal";
-
-document.getElementById("phase").innerText=data.phase;
-document.getElementById("title").innerText=`V${currentWeek} • ${currentDay}`;
-
-document.getElementById("statWeek").innerText=currentWeek+"/16";
-document.getElementById("statPercent").innerText=Math.floor(currentWeek/16*100)+"%";
-
-document.getElementById("timeline").innerHTML=
-
-render("08:00","Frukost",b)+
-render("12:00","Lunch",p,c)+
-render("17:00","Träning",data.split[dayIndex])+
-render("20:00","Middag",p);
-
-shopping();
+    localStorage.setItem("day",currentDay);
 }
 
-/* RENDER */
-function render(time,title,a,b){
+/* CHECKS */
 
-const item=b?`${a.desc}\n+ ${b.desc}`:a.desc;
+function toggleCheck(id){
 
-return `
-<div class="event">
-<div class="time">${time}</div>
-<div class="card">
-<div class="title">
-<div>${title}</div>
-<div class="badge">MEAL</div>
-</div>
-<div class="desc">${item}</div>
-</div>
-</div>`;
+    const checks =
+        JSON.parse(localStorage.getItem("checks") || "{}");
+
+    checks[id]=!checks[id];
+
+    localStorage.setItem(
+        "checks",
+        JSON.stringify(checks)
+    );
+
+    updateUI();
+}
+
+function isChecked(id){
+
+    const checks =
+        JSON.parse(localStorage.getItem("checks") || "{}");
+
+    return checks[id];
+}
+
+/* EVENT */
+
+function renderEvent(
+    time,
+    title,
+    desc,
+    type,
+    macros=null,
+    exercises=null
+){
+
+    const id =
+        `${currentWeek}-${currentDay}-${title}`;
+
+    return `
+
+        <div class="event">
+
+            <div class="time">${time}</div>
+
+            <div class="card">
+
+                <div class="title">
+
+                    <div class="title-left">
+                        ${title}
+                    </div>
+
+                    <div class="badge">
+                        ${type}
+                    </div>
+
+                </div>
+
+                <div class="desc">
+                    ${desc}
+                </div>
+
+                ${
+                    macros
+                    ?
+                    `
+                    <div class="macro">
+
+                        ${macros.kcal} kcal •
+
+                        ${macros.p}P •
+
+                        ${macros.c}C •
+
+                        ${macros.f}F
+
+                    </div>
+                    `
+                    :
+                    ''
+                }
+
+                ${
+                    exercises
+                    ?
+                    exercises.map(ex=>`
+                        <div class="exercise">
+                            ${ex}
+                        </div>
+                    `).join('')
+                    :
+                    ''
+                }
+
+                <div class="check-row">
+
+                    <button
+                        class="check-btn ${isChecked(id) ? 'done' : ''}"
+                        onclick="toggleCheck('${id}')"
+                    >
+
+                        ${isChecked(id)
+                            ? '✅ Completed'
+                            : 'Mark Complete'
+                        }
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+    `;
+}
+
+/* WEEKLY SHOPPING LIST */
+
+function generateShoppingList(){
+
+    const shoppingMap = {};
+
+    for(let i = 0; i < 7; i++){
+
+        const breakfast =
+            randomPick(breakfasts);
+
+        const lunchProtein =
+            randomPick(proteins);
+
+        const lunchCarb =
+            randomPick(carbs);
+
+        const dinnerProtein =
+            uniquePick(
+                proteins,
+                [lunchProtein]
+            );
+
+        const veg1 =
+            randomPick(veggies);
+
+        const veg2 =
+            uniquePick(
+                veggies,
+                [veg1]
+            );
+
+        const weeklyItems = [
+
+            breakfast.name,
+            lunchProtein.name,
+            lunchCarb.name,
+            dinnerProtein.name,
+            veg1,
+            veg2
+
+        ];
+
+        weeklyItems.forEach(item=>{
+
+            shoppingMap[item] =
+                (shoppingMap[item] || 0) + 1;
+        });
+    }
+
+    const sorted =
+        Object.entries(shoppingMap)
+        .sort((a,b)=>b[1]-a[1]);
+
+    let html = '';
+
+    sorted.forEach(([item,count])=>{
+
+        html += `
+
+            <div class="shopping-item">
+
+                • ${item}
+                <strong> × ${count}</strong>
+
+            </div>
+
+        `;
+    });
+
+    document.getElementById("shoppingList")
+        .innerHTML = html;
+}
+
+/* UPDATE UI */
+
+function updateUI(){
+
+    document.querySelectorAll(".week-btn")
+        .forEach((btn,i)=>{
+
+            btn.classList.toggle(
+                "active",
+                i+1===currentWeek
+            );
+        });
+
+    document.querySelectorAll(".day-btn")
+        .forEach(btn=>{
+
+            btn.classList.toggle(
+                "active",
+                btn.innerText===currentDay
+            );
+        });
+
+    const data = getProgramData();
+
+    document.getElementById("phase")
+        .innerText=data.phase;
+
+    document.getElementById("title")
+        .innerText=`Week ${currentWeek} • ${currentDay}`;
+
+    const percent =
+        Math.floor((currentWeek/16)*100);
+
+    document.getElementById("progressFill")
+        .style.width=`${percent}%`;
+
+    document.getElementById("statWeek")
+        .innerText=`${currentWeek}/16`;
+
+    document.getElementById("statPercent")
+        .innerText=`${percent}%`;
+
+    const breakfast =
+        randomPick(breakfasts);
+
+    const lunchProtein =
+        randomPick(proteins);
+
+    const lunchCarb =
+        randomPick(carbs);
+
+    const dinnerProtein =
+        uniquePick(
+            proteins,
+            [lunchProtein]
+        );
+
+    const veg1 =
+        randomPick(veggies);
+
+    const veg2 =
+        uniquePick(
+            veggies,
+            [veg1]
+        );
+
+    const totalCalories =
+        breakfast.kcal +
+        lunchProtein.kcal +
+        lunchCarb.kcal +
+        dinnerProtein.kcal;
+
+    document.getElementById("dailyCalories")
+        .innerText = `${totalCalories} kcal`;
+
+    const workout =
+        data.split[
+            days.indexOf(currentDay)
+        ];
+
+    document.getElementById("timeline").innerHTML=`
+
+        ${renderEvent(
+            "06:00",
+            "Morning Cardio",
+            data.cardio,
+            "CARDIO"
+        )}
+
+        ${renderEvent(
+            "08:30",
+            "Breakfast",
+            breakfast.name,
+            "MEAL",
+            breakfast
+        )}
+
+        ${renderEvent(
+            "12:00",
+            "Lunch",
+            `${lunchProtein.name} + ${lunchCarb.name} + ${veg1}`,
+            "MEAL",
+            {
+                p:lunchProtein.p + lunchCarb.p,
+                c:lunchProtein.c + lunchCarb.c,
+                f:lunchProtein.f + lunchCarb.f,
+                kcal:lunchProtein.kcal + lunchCarb.kcal
+            }
+        )}
+
+        ${renderEvent(
+            "17:00",
+            "Workout",
+            workout,
+            "TRAINING",
+            null,
+            workouts[workout]
+        )}
+
+        ${renderEvent(
+            "20:00",
+            "Dinner",
+            `${dinnerProtein.name} + ${veg2}`,
+            "MEAL",
+            dinnerProtein
+        )}
+
+    `;
+
+    generateShoppingList();
 }
 
 /* INIT */
+
 function init(){
 
-const sb=document.getElementById("sidebar");
+    const sidebar =
+        document.getElementById("sidebar");
 
-for(let i=1;i<=16;i++){
-const btn=document.createElement("button");
-btn.className="week-btn";
-btn.innerText=i;
-btn.onclick=()=>{currentWeek=i;update();};
-sb.appendChild(btn);
-}
+    for(let i=1;i<=16;i++){
 
-days.forEach(d=>{
-const btn=document.createElement("button");
-btn.className="day-btn";
-btn.innerText=d;
-btn.onclick=()=>{currentDay=d;update();};
-document.getElementById("daySelector").appendChild(btn);
-});
+        const btn =
+            document.createElement("button");
 
-update();
+        btn.className="week-btn";
+
+        btn.innerText=i;
+
+        if(i===currentWeek){
+            btn.classList.add("active");
+        }
+
+        btn.onclick=()=>{
+
+            currentWeek=i;
+
+            saveState();
+
+            updateUI();
+        };
+
+        sidebar.appendChild(btn);
+    }
+
+    const daySelector =
+        document.getElementById("daySelector");
+
+    days.forEach(day=>{
+
+        const btn =
+            document.createElement("button");
+
+        btn.className="day-btn";
+
+        btn.innerText=day;
+
+        if(day===currentDay){
+            btn.classList.add("active");
+        }
+
+        btn.onclick=()=>{
+
+            currentDay=day;
+
+            saveState();
+
+            updateUI();
+        };
+
+        daySelector.appendChild(btn);
+    });
+
+    updateUI();
 }
 
 init();
 
 </script>
+
 </body>
 </html>
