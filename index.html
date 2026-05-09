@@ -3,36 +3,160 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>16 WOH - Manual</title>
+    <title>16 WOH - Den Officiella Manualen</title>
     <style>
-        :root { --primary: #ff3e3e; --bg: #0f0f0f; --card: #1a1a1a; --text: #ececec; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; height: 100vh; overflow: hidden; }
+        :root {
+            --primary: #ff3e3e;
+            --bg: #0b0b0b;
+            --card: #181818;
+            --sidebar-bg: #000000;
+            --text: #ffffff;
+            --text-dim: #b0b0b0;
+        }
 
-        /* Sidomeny för veckor */
-        .sidebar { width: 80px; background: #000; display: flex; flex-direction: column; align-items: center; overflow-y: auto; border-right: 1px solid #333; }
-        .week-btn { width: 50px; height: 50px; border-radius: 50%; border: 2px solid #333; background: none; color: white; margin: 10px 0; cursor: pointer; transition: 0.3s; font-weight: bold; }
-        .week-btn.active { background: var(--primary); border-color: var(--primary); box-shadow: 0 0 10px var(--primary); }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
 
-        /* Huvudinnehåll */
-        .main-content { flex: 1; padding: 30px; overflow-y: auto; }
-        .phase-badge { background: var(--primary); color: black; padding: 5px 15px; border-radius: 20px; font-weight: bold; text-transform: uppercase; font-size: 0.8rem; }
-        
-        .section-title { color: var(--primary); text-transform: uppercase; letter-spacing: 1px; margin: 30px 0 10px; border-bottom: 1px solid #333; padding-bottom: 5px; }
-        
-        .card { background: var(--card); padding: 20px; border-radius: 12px; margin-bottom: 20px; }
-        
-        .diet-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
-        .diet-item { background: #252525; padding: 15px; border-radius: 8px; border-left: 3px solid var(--primary); }
+        /* --- NAVIGATION --- */
+        .sidebar {
+            width: 70px;
+            background: var(--sidebar-bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-y: auto;
+            border-right: 1px solid #222;
+            padding-top: 10px;
+        }
 
-        .exercise-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #2a2a2a; }
+        .week-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 12px;
+            border: 1px solid #333;
+            background: #111;
+            color: var(--text-dim);
+            margin: 8px 0;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: bold;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .week-btn:hover {
+            border-color: var(--primary);
+            color: white;
+        }
+
+        .week-btn.active {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: black;
+            box-shadow: 0 0 15px rgba(255, 62, 62, 0.4);
+        }
+
+        /* --- CONTENT --- */
+        .main-content {
+            flex: 1;
+            padding: 25px;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .header-section {
+            margin-bottom: 30px;
+        }
+
+        .phase-badge {
+            display: inline-block;
+            background: #222;
+            color: var(--primary);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-weight: 800;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            border: 1px solid var(--primary);
+            margin-bottom: 10px;
+        }
+
+        h1 { margin: 0; font-size: 2rem; letter-spacing: -1px; }
+
+        .section-title {
+            color: var(--text);
+            text-transform: uppercase;
+            font-size: 1.1rem;
+            margin: 35px 0 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #333;
+        }
+
+        /* --- CARDS & LISTS --- */
+        .diet-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 15px;
+        }
+
+        .diet-card {
+            background: var(--card);
+            padding: 18px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+            font-size: 0.95rem;
+        }
+
+        .workout-card {
+            background: var(--card);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .exercise-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid #252525;
+        }
+
         .exercise-row:last-child { border-bottom: none; }
-        .ex-name { font-weight: bold; color: var(--primary); }
+
+        .ex-info { display: flex; flex-direction: column; }
+        .ex-name { font-weight: bold; font-size: 1rem; margin-bottom: 4px; }
+        .ex-val { color: var(--primary); font-family: monospace; font-weight: bold; font-size: 0.9rem; }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+
+        @media (max-width: 600px) {
+            .main-content { padding: 15px; }
+            h1 { font-size: 1.5rem; }
+        }
     </style>
 </head>
 <body>
 
-<div class="sidebar" id="sidebar">
-    </div>
+<div class="sidebar" id="sidebar"></div>
 
 <div class="main-content">
     <div id="content-area">
@@ -40,35 +164,49 @@
 </div>
 
 <script>
-    // Din kompletta databas
     const programData = {
-        1: {
-            phase: "Fas 1: Shock & Cleanse",
-            diet: ["6 äggvitor & havregryn", "Kyckling & Broccoli", "Torsk & Spenat", "Kvarg naturell"],
-            workout: [
-                { name: "Morgon-PW", val: "60 min" },
-                { name: "Knäböj", val: "4 x 15" },
-                { name: "Marklyft", val: "3 x 10" },
-                { name: "Militärpress", val: "4 x 12" }
-            ]
-        },
-        2: {
-            phase: "Fas 1: Uppbyggnad",
-            diet: ["Samma som V1", "Addera 20g nötter", "Fokus på vattenintag"],
-            workout: [
-                { name: "Morgon-PW", val: "60 min" },
-                { name: "Bänkpress", val: "5 x 10" },
-                { name: "Stångrodd", val: "4 x 12" },
-                { name: "Löpintervaller", val: "10 x 40/20" }
-            ]
-        },
-        // Fortsätt fylla på upp till 16...
+        // FAS 1
+        1: { phase: "Fas 1: Shock", diet: ["6 äggvitor & 1dl havregryn", "200g Kyckling & broccoli", "Naturell kvarg (osötad)", "200g Vit fisk & spenat"], 
+             workout: [{n: "Morgon-PW", v: "60 min"}, {n: "Bröst & Triceps", v: "4x12"}, {n: "Mage", v: "100 reps"}] },
+        2: { phase: "Fas 1: Shock", diet: ["Samma som V1", "Addera 20g mandlar", "Vatten: 3L/dag"], 
+             workout: [{n: "Morgon-PW", v: "60 min"}, {n: "Rygg & Biceps", v: "4x12"}, {n: "Stångrodd", v: "4x10"}] },
+        3: { phase: "Fas 1: Shock", diet: ["Samma som V1", "Inga mjölkprodukter", "Fokus på sömn (8h)"], 
+             workout: [{n: "Morgon-PW", v: "60 min"}, {n: "Ben & Axlar", v: "4x15"}, {n: "Militärpress", v: "4x10"}] },
+        4: { phase: "Fas 1: Shock", diet: ["Strikt kostkontroll", "Inga fusk", "Kvarg med kanel"], 
+             workout: [{n: "Morgon-PW", v: "60 min"}, {n: "Helkropp", v: "3x12"}, {n: "Intervaller", v: "10st"}] },
+        // FAS 2
+        5: { phase: "Fas 2: The Grind", diet: ["Havregryn 0.5dl", "Kyckling 250g", "Bort med mejerier"], 
+             workout: [{n: "Morgon-PW", v: "75 min"}, {n: "Tunga lyft", v: "5x5"}, {n: "Chins", v: "3xMax"}] },
+        6: { phase: "Fas 2: The Grind", diet: ["Ketosfokus", "Endast gröna blad", "Protein + Fett"], 
+             workout: [{n: "Morgon-PW", v: "75 min"}, {n: "Superset: Bröst/Rygg", v: "4x10"}, {n: "Dips", v: "4xMax"}] },
+        7: { phase: "Fas 2: The Grind", diet: ["Periodisk fasta", "Ätfönster: 12-20", "Vatten: 4L/dag"], 
+             workout: [{n: "Morgon-PW", v: "75 min"}, {n: "Benmördare", v: "100 reps böj"}, {n: "Crunches", v: "200st"}] },
+        8: { phase: "Fas 2: The Grind", diet: ["Högprotein", "Låg kolhydrat", "Ingen frukt"], 
+             workout: [{n: "Morgon-PW", v: "75 min"}, {n: "Cirkelträning", v: "5 varv"}, {n: "Burpees", v: "50st"}] },
+        // FAS 3
+        9: { phase: "Fas 3: Peak", diet: ["Torsk & Sparris", "Inget salt", "Grönt te"], 
+             workout: [{n: "Morgon-PW", v: "90 min"}, {n: "Dropset på allt", v: "4x12+Max"}] },
+        10: { phase: "Fas 3: Peak", diet: ["Striktaste fasen", "Fokus: Makron", "Ingen sås"], 
+              workout: [{n: "Morgon-PW", v: "90 min"}, {n: "Högreps", v: "20-30 reps"}] },
+        11: { phase: "Fas 3: Peak", diet: ["Vätsketömning start", "Noll kolhydrat", "Vatten: 5L"], 
+              workout: [{n: "Morgon-PW", v: "90 min"}, {n: "Explosiv styrka", v: "6x3"}] },
+        12: { phase: "Fas 3: Peak", diet: ["Fortsatt tömning", "Ren protein", "Fokus"], 
+              workout: [{n: "Morgon-PW", v: "90 min"}, {n: "Uthållighet", v: "10km löpning"}] },
+        // FAS 4
+        13: { phase: "Fas 4: Final", diet: ["Kolhydratsladdning", "Ris & Kyckling", "Strikt"], 
+              workout: [{n: "Morgon-PW", v: "60 min"}, {n: "Posing", v: "30 min"}] },
+        14: { phase: "Fas 4: Final", diet: ["Justeringsvecka", "Mät formen", "Vatten: 2L"], 
+              workout: [{n: "Morgon-PW", v: "60 min"}, {n: "HIIT", v: "45 min"}] },
+        15: { phase: "Fas 4: Final", diet: ["Sista rycket", "Fokus på energi", "Vila"], 
+              workout: [{n: "Morgon-PW", v: "60 min"}, {n: "Lätt styrka", v: "3x15"}] },
+        16: { phase: "Fas 4: Final", diet: ["FINAL WEEK", "Toppform", "Grattis!"], 
+              workout: [{n: "Morgon-PW", v: "30 min"}, {n: "Mental laddning", v: "100%"}] }
     };
 
     const sidebar = document.getElementById('sidebar');
     const contentArea = document.getElementById('content-area');
 
-    // Skapa knappar för alla 16 veckor
+    // Initiera navigering
     for (let i = 1; i <= 16; i++) {
         const btn = document.createElement('button');
         btn.innerText = i;
@@ -79,28 +217,32 @@
     }
 
     function loadWeek(weekNum) {
-        // Uppdatera knappar
         document.querySelectorAll('.week-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(`btn-${weekNum}`).classList.add('active');
+        const activeBtn = document.getElementById(`btn-${weekNum}`);
+        activeBtn.classList.add('active');
+        activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
-        const data = programData[weekNum] || { phase: "Data saknas", diet: [], workout: [] };
+        const data = programData[weekNum];
 
-        // Rendera innehåll
         contentArea.innerHTML = `
-            <div class="phase-badge">${data.phase}</div>
-            <h1>Vecka ${weekNum}</h1>
-
-            <h3 class="section-title">Matschema</h3>
-            <div class="diet-grid">
-                ${data.diet.map(item => `<div class="diet-item">${item}</div>`).join('')}
+            <div class="header-section">
+                <div class="phase-badge">${data.phase}</div>
+                <h1>VECKA ${weekNum}</h1>
             </div>
 
-            <h3 class="section-title">Träningspass</h3>
-            <div class="card">
+            <div class="section-title">Matschema & Kost</div>
+            <div class="diet-container">
+                ${data.diet.map(item => `<div class="diet-card">${item}</div>`).join('')}
+            </div>
+
+            <div class="section-title">Träningsprogram</div>
+            <div class="workout-card">
                 ${data.workout.map(ex => `
                     <div class="exercise-row">
-                        <span class="ex-name">${ex.name}</span>
-                        <span>${ex.val}</span>
+                        <div class="ex-info">
+                            <span class="ex-name">${ex.n}</span>
+                        </div>
+                        <span class="ex-val">${ex.v}</span>
                     </div>
                 `).join('')}
             </div>
