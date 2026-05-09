@@ -3,209 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>16 Weeks of Hell - Manual</title>
+    <title>16 WOH - Manual</title>
     <style>
         :root { --primary: #ff3e3e; --bg: #0f0f0f; --card: #1a1a1a; --text: #ececec; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; margin: 0; padding: 20px; }
-        .container { max-width: 800px; margin: auto; }
-        
-        .selector-box { margin-bottom: 30px; text-align: center; }
-        select { background: var(--card); color: white; border: 2px solid var(--primary); padding: 12px; border-radius: 8px; width: 100%; font-size: 1.1rem; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; height: 100vh; overflow: hidden; }
 
-        .section-title { color: var(--primary); text-transform: uppercase; letter-spacing: 2px; border-left: 4px solid var(--primary); padding-left: 15px; margin: 30px 0 15px; }
-        
-        .content-card { background: var(--card); padding: 25px; border-radius: 12px; margin-bottom: 20px; border: 1px solid #333; }
-        
-        .diet-list, .workout-list { list-style: none; padding: 0; }
-        .diet-list li, .workout-list li { margin-bottom: 12px; padding-left: 20px; position: relative; }
-        .diet-list li::before { content: "•"; color: var(--primary); position: absolute; left: 0; font-weight: bold; }
-        
-        .workout-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 15px; }
-        .exercise-box { background: #252525; padding: 15px; border-radius: 8px; font-size: 0.9rem; }
-        .exercise-box strong { color: var(--primary); display: block; margin-bottom: 5px; }
+        /* Sidomeny för veckor */
+        .sidebar { width: 80px; background: #000; display: flex; flex-direction: column; align-items: center; overflow-y: auto; border-right: 1px solid #333; }
+        .week-btn { width: 50px; height: 50px; border-radius: 50%; border: 2px solid #333; background: none; color: white; margin: 10px 0; cursor: pointer; transition: 0.3s; font-weight: bold; }
+        .week-btn.active { background: var(--primary); border-color: var(--primary); box-shadow: 0 0 10px var(--primary); }
 
-        @media (max-width: 600px) { .workout-grid { grid-template-columns: 1fr; } }
+        /* Huvudinnehåll */
+        .main-content { flex: 1; padding: 30px; overflow-y: auto; }
+        .phase-badge { background: var(--primary); color: black; padding: 5px 15px; border-radius: 20px; font-weight: bold; text-transform: uppercase; font-size: 0.8rem; }
+        
+        .section-title { color: var(--primary); text-transform: uppercase; letter-spacing: 1px; margin: 30px 0 10px; border-bottom: 1px solid #333; padding-bottom: 5px; }
+        
+        .card { background: var(--card); padding: 20px; border-radius: 12px; margin-bottom: 20px; }
+        
+        .diet-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        .diet-item { background: #252525; padding: 15px; border-radius: 8px; border-left: 3px solid var(--primary); }
+
+        .exercise-row { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #2a2a2a; }
+        .exercise-row:last-child { border-bottom: none; }
+        .ex-name { font-weight: bold; color: var(--primary); }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="selector-box">
-        <h1>THE MANUAL</h1>
-        <select id="week-selector" onchange="renderProgram()">
-            </select>
+<div class="sidebar" id="sidebar">
     </div>
 
-    <div id="program-content">
+<div class="main-content">
+    <div id="content-area">
         </div>
 </div>
 
 <script>
-    // Din databas med allt innehåll
+    // Din kompletta databas
     const programData = {
         1: {
-            phase: "Fas 1: Shock to the System",
-            diet: [
-                "Protein: Kyckling, torsk, kvarg (naturell), äggvita.",
-                "Fett: Olivolja, avokado (begränsat).",
-                "Förbud: Inget socker, inget mjöl, ingen alkohol, ingen frukt.",
-                "Timing: Ät var 3:e till 4:e timme för jämn förbränning."
-            ],
-            training: {
-                focus: "Högvolym & Fettförbränning",
-                exercises: [
-                    { name: "Morgon-PW", detail: "60-75 min i 6.5 - 7.0 km/h" },
-                    { name: "Knäböj", detail: "4 set x 15 reps (60s vila)" },
-                    { name: "Bänkpress", detail: "4 set x 12 reps" },
-                    { name: "Marklyft", detail: "3 set x 10 reps (fokus teknik)" },
-                    { name: "Mage", detail: "Plankan 3 x 60 sekunder" }
-                ]
-            }
+            phase: "Fas 1: Shock & Cleanse",
+            diet: ["6 äggvitor & havregryn", "Kyckling & Broccoli", "Torsk & Spenat", "Kvarg naturell"],
+            workout: [
+                { name: "Morgon-PW", val: "60 min" },
+                { name: "Knäböj", val: "4 x 15" },
+                { name: "Marklyft", val: "3 x 10" },
+                { name: "Militärpress", val: "4 x 12" }
+            ]
         },
-        5: {
-            phase: "Fas 2: The Grind",
-            diet: [
-                "Sänkta kolhydrater på vilodagar.",
-                "Öka vattenintaget till 4 liter per dag.",
-                "Fokus på gröna bladgrönsaker (spenat, broccoli) vid varje måltid."
-            ],
-            training: {
-                focus: "Styrka & Definition",
-                exercises: [
-                    { name: "Morgon-PW", detail: "75 min (viktväst rekommenderas)" },
-                    { name: "Militärpress", detail: "5 set x 8 reps (tunga lyft)" },
-                    { name: "Chins/Latsdrag", detail: "4 set till failure" },
-                    { name: "Intervaller", detail: "10 x 40/20 sek på löpband" }
-                ]
-            }
-        }
-        // Lägg till fler veckor här...
+        2: {
+            phase: "Fas 1: Uppbyggnad",
+            diet: ["Samma som V1", "Addera 20g nötter", "Fokus på vattenintag"],
+            workout: [
+                { name: "Morgon-PW", val: "60 min" },
+                { name: "Bänkpress", val: "5 x 10" },
+                { name: "Stångrodd", val: "4 x 12" },
+                { name: "Löpintervaller", val: "10 x 40/20" }
+            ]
+        },
+        // Fortsätt fylla på upp till 16...
     };
 
-    function renderProgram() {
-        const week = document.getElementById('week-selector').value;
-        const data = programData[week] || programData[1];
-        const container = document.getElementById('program-content');
+    const sidebar = document.getElementById('sidebar');
+    const contentArea = document.getElementById('content-area');
 
-        let dietHtml = data.diet.map(item => `<li>${item}</li>`).join('');
-        let workoutHtml = data.training.exercises.map(ex => `
-            <div class="exercise-box">
-                <strong>${ex.name}</strong>
-                ${ex.detail}
+    // Skapa knappar för alla 16 veckor
+    for (let i = 1; i <= 16; i++) {
+        const btn = document.createElement('button');
+        btn.innerText = i;
+        btn.className = 'week-btn';
+        btn.id = `btn-${i}`;
+        btn.onclick = () => loadWeek(i);
+        sidebar.appendChild(btn);
+    }
+
+    function loadWeek(weekNum) {
+        // Uppdatera knappar
+        document.querySelectorAll('.week-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(`btn-${weekNum}`).classList.add('active');
+
+        const data = programData[weekNum] || { phase: "Data saknas", diet: [], workout: [] };
+
+        // Rendera innehåll
+        contentArea.innerHTML = `
+            <div class="phase-badge">${data.phase}</div>
+            <h1>Vecka ${weekNum}</h1>
+
+            <h3 class="section-title">Matschema</h3>
+            <div class="diet-grid">
+                ${data.diet.map(item => `<div class="diet-item">${item}</div>`).join('')}
             </div>
-        `).join('');
 
-        container.innerHTML = `
-            <h2 style="text-align:center">${data.phase}</h2>
-            
-            <h3 class="section-title">Kostregler & Innehåll</h3>
-            <div class="content-card">
-                <ul class="diet-list">${dietHtml}</ul>
-            </div>
-
-            <h3 class="section-title">Dagens Träningsfokus: ${data.training.focus}</h3>
-            <div class="content-card">
-                <div class="workout-grid">${workoutHtml}</div>
+            <h3 class="section-title">Träningspass</h3>
+            <div class="card">
+                ${data.workout.map(ex => `
+                    <div class="exercise-row">
+                        <span class="ex-name">${ex.name}</span>
+                        <span>${ex.val}</span>
+                    </div>
+                `).join('')}
             </div>
         `;
     }
 
-    // Initiera väljaren
-    const selector = document.getElementById('week-selector');
-    for (let i = 1; i <= 16; i++) {
-        let opt = document.createElement('option');
-        opt.value = i;
-        opt.innerText = `Vecka ${i}`;
-        selector.appendChild(opt);
-    }
-
-    renderProgram();
-</script>
-
-</body>
-</html>        </div>
-        <div class="task-item">
-            <input type="checkbox" id="check-water" onclick="save()">
-            <span>Druckit 3L+ vatten</span>
-        </div>
-    </div>
-
-    <div class="card">
-        <h2> Dagens Träning</h2>
-        <div class="task-item">
-            <input type="checkbox" id="check-cardio" onclick="save()">
-            <div>
-                <strong>Morgon-Powerwalk</strong>
-                <div class="info-text">60-75 minuter i högt tempo innan frukost.</div>
-            </div>
-        </div>
-        <div class="task-item">
-            <input type="checkbox" id="check-gym" onclick="save()">
-            <div>
-                <strong>Styrkepass: <span id="workout-name">Ben & Mage</span></strong>
-                <div id="workout-details" class="info-text">Laddar pass...</div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    // 1. Program-data
-    const program = {
-        1: { 
-            diet: "Fas 1: Uppstart. Inget socker, inget alkohol, strikt protein/fett/kolhydrat-ratio.",
-            workout: "Basstyrka: 4x12 repetitioner. Fokus på teknik.",
-            split: "Bröst & Triceps"
-        },
-        5: { 
-            diet: "Fas 2: Ökat proteinintag. Tuffare restriktioner kring kolhydrater på vilodagar.",
-            workout: "Heavy Duty: 3x6-8 repetitioner. Maxvikt.",
-            split: "Rygg & Biceps"
-        }
-        // Du kan fylla på med alla 16 veckor här
-    };
-
-    // 2. Fyll i dropdown-menyn
-    const selector = document.getElementById('week-selector');
-    for (let i = 1; i <= 16; i++) {
-        let opt = document.createElement('option');
-        opt.value = i;
-        opt.innerHTML = 'Vecka ' + i;
-        selector.appendChild(opt);
-    }
-
-    // 3. Uppdatera innehåll baserat på vecka
-    function updateView() {
-        const week = selector.value;
-        const data = program[week] || program[1]; // Fallback till vecka 1
-        
-        document.getElementById('diet-content').innerText = data.diet;
-        document.getElementById('workout-name').innerText = data.split;
-        document.getElementById('workout-details').innerText = data.workout;
-        
-        load(week); // Ladda sparad status för denna vecka
-    }
-
-    // 4. Spara och Ladda (LocalStorage med vecka-prefix)
-    const keys = ['check-diet', 'check-water', 'check-cardio', 'check-gym'];
-
-    function save() {
-        const week = selector.value;
-        keys.forEach(key => {
-            const val = document.getElementById(key).checked;
-            localStorage.setItem(`w${week}-${key}`, val);
-        });
-    }
-
-    function load(week) {
-        keys.forEach(key => {
-            const saved = localStorage.getItem(`w${week}-${key}`);
-            document.getElementById(key).checked = (saved === 'true');
-        });
-    }
-
-    // Starta appen
-    updateView();
+    // Starta på vecka 1
+    loadWeek(1);
 </script>
 
 </body>
