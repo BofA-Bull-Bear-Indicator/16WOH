@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>16 WOH - Den Officiella Manualen</title>
+    <title>16 WOH - Manual & Mental Coach</title>
     <style>
         :root {
             --primary: #ff3e3e;
@@ -12,6 +12,7 @@
             --sidebar-bg: #000000;
             --text: #ffffff;
             --text-dim: #b0b0b0;
+            --accent-bg: #1f1414;
         }
 
         body {
@@ -26,7 +27,7 @@
 
         /* --- NAVIGATION --- */
         .sidebar {
-            width: 70px;
+            width: 75px;
             background: var(--sidebar-bg);
             display: flex;
             flex-direction: column;
@@ -34,11 +35,12 @@
             overflow-y: auto;
             border-right: 1px solid #222;
             padding-top: 10px;
+            flex-shrink: 0;
         }
 
         .week-btn {
-            width: 45px;
-            height: 45px;
+            width: 50px;
+            height: 50px;
             border-radius: 12px;
             border: 1px solid #333;
             background: #111;
@@ -47,13 +49,8 @@
             cursor: pointer;
             transition: all 0.2s ease;
             font-weight: bold;
-            font-size: 0.9rem;
+            font-size: 1rem;
             flex-shrink: 0;
-        }
-
-        .week-btn:hover {
-            border-color: var(--primary);
-            color: white;
         }
 
         .week-btn.active {
@@ -71,25 +68,34 @@
             -webkit-overflow-scrolling: touch;
         }
 
-        .header-section {
-            margin-bottom: 30px;
-        }
+        .header-section { margin-bottom: 25px; }
 
         .phase-badge {
             display: inline-block;
-            background: #222;
+            background: var(--accent-bg);
             color: var(--primary);
             padding: 6px 14px;
             border-radius: 6px;
             font-weight: 800;
             text-transform: uppercase;
             font-size: 0.75rem;
-            letter-spacing: 1px;
             border: 1px solid var(--primary);
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
 
-        h1 { margin: 0; font-size: 2rem; letter-spacing: -1px; }
+        h1 { margin: 0; font-size: 2.2rem; letter-spacing: -1px; }
+
+        /* --- INTRO BOX --- */
+        .intro-box {
+            background: linear-gradient(135deg, #1f1f1f 0%, #151515 100%);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+            margin-bottom: 30px;
+            font-style: italic;
+            color: var(--text-dim);
+            line-height: 1.5;
+        }
 
         .section-title {
             color: var(--text);
@@ -102,13 +108,9 @@
         }
 
         .section-title::after {
-            content: "";
-            flex: 1;
-            height: 1px;
-            background: #333;
+            content: ""; flex: 1; height: 1px; background: #333;
         }
 
-        /* --- CARDS & LISTS --- */
         .diet-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -119,7 +121,7 @@
             background: var(--card);
             padding: 18px;
             border-radius: 12px;
-            border-left: 4px solid var(--primary);
+            border: 1px solid #252525;
             font-size: 0.95rem;
         }
 
@@ -127,6 +129,7 @@
             background: var(--card);
             border-radius: 12px;
             overflow: hidden;
+            border: 1px solid #252525;
         }
 
         .exercise-row {
@@ -137,20 +140,12 @@
             border-bottom: 1px solid #252525;
         }
 
-        .exercise-row:last-child { border-bottom: none; }
-
-        .ex-info { display: flex; flex-direction: column; }
-        .ex-name { font-weight: bold; font-size: 1rem; margin-bottom: 4px; }
-        .ex-val { color: var(--primary); font-family: monospace; font-weight: bold; font-size: 0.9rem; }
-
-        /* Custom scrollbar */
-        ::-webkit-scrollbar { width: 5px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+        .ex-name { font-weight: bold; }
+        .ex-val { color: var(--primary); font-family: monospace; font-weight: bold; }
 
         @media (max-width: 600px) {
             .main-content { padding: 15px; }
-            h1 { font-size: 1.5rem; }
+            h1 { font-size: 1.6rem; }
         }
     </style>
 </head>
@@ -159,54 +154,112 @@
 <div class="sidebar" id="sidebar"></div>
 
 <div class="main-content">
-    <div id="content-area">
-        </div>
+    <div id="content-area"></div>
 </div>
 
 <script>
     const programData = {
-        // FAS 1
-        1: { phase: "Fas 1: Shock", diet: ["6 äggvitor & 1dl havregryn", "200g Kyckling & broccoli", "Naturell kvarg (osötad)", "200g Vit fisk & spenat"], 
-             workout: [{n: "Morgon-PW", v: "60 min"}, {n: "Bröst & Triceps", v: "4x12"}, {n: "Mage", v: "100 reps"}] },
-        2: { phase: "Fas 1: Shock", diet: ["Samma som V1", "Addera 20g mandlar", "Vatten: 3L/dag"], 
-             workout: [{n: "Morgon-PW", v: "60 min"}, {n: "Rygg & Biceps", v: "4x12"}, {n: "Stångrodd", v: "4x10"}] },
-        3: { phase: "Fas 1: Shock", diet: ["Samma som V1", "Inga mjölkprodukter", "Fokus på sömn (8h)"], 
-             workout: [{n: "Morgon-PW", v: "60 min"}, {n: "Ben & Axlar", v: "4x15"}, {n: "Militärpress", v: "4x10"}] },
-        4: { phase: "Fas 1: Shock", diet: ["Strikt kostkontroll", "Inga fusk", "Kvarg med kanel"], 
-             workout: [{n: "Morgon-PW", v: "60 min"}, {n: "Helkropp", v: "3x12"}, {n: "Intervaller", v: "10st"}] },
-        // FAS 2
-        5: { phase: "Fas 2: The Grind", diet: ["Havregryn 0.5dl", "Kyckling 250g", "Bort med mejerier"], 
-             workout: [{n: "Morgon-PW", v: "75 min"}, {n: "Tunga lyft", v: "5x5"}, {n: "Chins", v: "3xMax"}] },
-        6: { phase: "Fas 2: The Grind", diet: ["Ketosfokus", "Endast gröna blad", "Protein + Fett"], 
-             workout: [{n: "Morgon-PW", v: "75 min"}, {n: "Superset: Bröst/Rygg", v: "4x10"}, {n: "Dips", v: "4xMax"}] },
-        7: { phase: "Fas 2: The Grind", diet: ["Periodisk fasta", "Ätfönster: 12-20", "Vatten: 4L/dag"], 
-             workout: [{n: "Morgon-PW", v: "75 min"}, {n: "Benmördare", v: "100 reps böj"}, {n: "Crunches", v: "200st"}] },
-        8: { phase: "Fas 2: The Grind", diet: ["Högprotein", "Låg kolhydrat", "Ingen frukt"], 
-             workout: [{n: "Morgon-PW", v: "75 min"}, {n: "Cirkelträning", v: "5 varv"}, {n: "Burpees", v: "50st"}] },
-        // FAS 3
-        9: { phase: "Fas 3: Peak", diet: ["Torsk & Sparris", "Inget salt", "Grönt te"], 
-             workout: [{n: "Morgon-PW", v: "90 min"}, {n: "Dropset på allt", v: "4x12+Max"}] },
-        10: { phase: "Fas 3: Peak", diet: ["Striktaste fasen", "Fokus: Makron", "Ingen sås"], 
-              workout: [{n: "Morgon-PW", v: "90 min"}, {n: "Högreps", v: "20-30 reps"}] },
-        11: { phase: "Fas 3: Peak", diet: ["Vätsketömning start", "Noll kolhydrat", "Vatten: 5L"], 
-              workout: [{n: "Morgon-PW", v: "90 min"}, {n: "Explosiv styrka", v: "6x3"}] },
-        12: { phase: "Fas 3: Peak", diet: ["Fortsatt tömning", "Ren protein", "Fokus"], 
-              workout: [{n: "Morgon-PW", v: "90 min"}, {n: "Uthållighet", v: "10km löpning"}] },
-        // FAS 4
-        13: { phase: "Fas 4: Final", diet: ["Kolhydratsladdning", "Ris & Kyckling", "Strikt"], 
-              workout: [{n: "Morgon-PW", v: "60 min"}, {n: "Posing", v: "30 min"}] },
-        14: { phase: "Fas 4: Final", diet: ["Justeringsvecka", "Mät formen", "Vatten: 2L"], 
-              workout: [{n: "Morgon-PW", v: "60 min"}, {n: "HIIT", v: "45 min"}] },
-        15: { phase: "Fas 4: Final", diet: ["Sista rycket", "Fokus på energi", "Vila"], 
-              workout: [{n: "Morgon-PW", v: "60 min"}, {n: "Lätt styrka", v: "3x15"}] },
-        16: { phase: "Fas 4: Final", diet: ["FINAL WEEK", "Toppform", "Grattis!"], 
-              workout: [{n: "Morgon-PW", v: "30 min"}, {n: "Mental laddning", v: "100%"}] }
+        1: { 
+            phase: "Fas 1: Shock",
+            intro: "Välkommen till helvetet. Den här veckan handlar bara om att bryta gamla mönster. Du kommer känna dig trött när sockret lämnar kroppen. Fokusera på att etablera rutinen: Morgon-PW direkt när klockan ringer. Inga undantag.",
+            diet: ["6 äggvitor & 1dl havregryn", "200g Kyckling & broccoli", "Naturell kvarg (osötad)", "200g Vit fisk & spenat"], 
+            workout: [{n: "Morgon-PW", v: "60 min"}, {n: "Bröst & Triceps", v: "4x12"}, {n: "Mage", v: "100 reps"}] 
+        },
+        2: { 
+            phase: "Fas 1: Shock",
+            intro: "Andra veckan är ofta svårare än den första. Nyhetens behag har lagt sig. Fokusera på vätskeintaget – 3 liter vatten är ett krav för att hålla ämnesomsättningen uppe när du ökar intensiteten.",
+            diet: ["Samma som V1", "Addera 20g mandlar", "Vatten: 3L/dag"], 
+            workout: [{n: "Morgon-PW", v: "60 min"}, {n: "Rygg & Biceps", v: "4x12"}, {n: "Stångrodd", v: "4x10"}] 
+        },
+        3: { 
+            phase: "Fas 1: Shock",
+            intro: "Nu börjar kroppen vänja sig. Din mentala styrka testas här. Tänk på sömnen – det är nu musklerna repareras. Se till att du får minst 7-8 timmar per natt för att orka passen.",
+            diet: ["Samma som V1", "Inga mjölkprodukter", "Fokus på sömn (8h)"], 
+            workout: [{n: "Morgon-PW", v: "60 min"}, {n: "Ben & Axlar", v: "4x15"}, {n: "Militärpress", v: "4x10"}] 
+        },
+        4: { 
+            phase: "Fas 1: Shock",
+            intro: "Sista veckan i Fas 1. Vi avslutar med ett helkroppsfokus. Nu ska tekniken sitta i gymmet. Förbered dig mentalt för Fas 2 där vi drar ner på kolhydraterna ytterligare.",
+            diet: ["Strikt kostkontroll", "Inga fusk", "Kvarg med kanel"], 
+            workout: [{n: "Morgon-PW", v: "60 min"}, {n: "Helkropp", v: "3x12"}, {n: "Intervaller", v: "10st"}] 
+        },
+        5: { 
+            phase: "Fas 2: The Grind",
+            intro: "Nu växlar vi upp. Morgon-PW förlängs till 75 minuter. Energinivåerna kan sjunka när vi kapar havregrynen, så fokusera på 'mind over matter'. Varje steg räknas.",
+            diet: ["Havregryn 0.5dl", "Kyckling 250g", "Bort med mejerier"], 
+            workout: [{n: "Morgon-PW", v: "75 min"}, {n: "Tunga lyft", v: "5x5"}, {n: "Chins", v: "3xMax"}] 
+        },
+        6: { 
+            phase: "Fas 2: The Grind",
+            intro: "Ketosfokus. Kroppen börjar använda fett som primär bränslekälla. Det kan kännas 'dimmigt' i huvudet, men håll ut. Träningen ska vara intensiv – vila mindre mellan setten.",
+            diet: ["Ketosfokus", "Endast gröna blad", "Protein + Fett"], 
+            workout: [{n: "Morgon-PW", v: "75 min"}, {n: "Superset: Bröst/Rygg", v: "4x10"}, {n: "Dips", v: "4xMax"}] 
+        },
+        7: { 
+            phase: "Fas 2: The Grind",
+            intro: "Periodisk fasta introduceras. Du äter bara mellan kl 12 och 20. Detta kommer att boosta din fettförbränning till max. Drick svart kaffe eller vatten på morgonen för att dämpa hungern.",
+            diet: ["Periodisk fasta", "Ätfönster: 12-20", "Vatten: 4L/dag"], 
+            workout: [{n: "Morgon-PW", v: "75 min"}, {n: "Benmördare", v: "100 reps böj"}, {n: "Crunches", v: "200st"}] 
+        },
+        8: { 
+            phase: "Fas 2: The Grind",
+            intro: "Halvvägs! Använd denna milstolpe som bränsle. Kroppen bör se annorlunda ut i spegeln nu. Fokusera på att hålla intensiteten uppe i cirkelträningen även om du är trött.",
+            diet: ["Högprotein", "Låg kolhydrat", "Ingen frukt"], 
+            workout: [{n: "Morgon-PW", v: "75 min"}, {n: "Cirkelträning", v: "5 varv"}, {n: "Burpees", v: "50st"}] 
+        },
+        9: { 
+            phase: "Fas 3: Peak",
+            intro: "Nu går vi in i Peak-fasen. 90 minuters powerwalks. Kosten är extremt strikt med vit fisk och sparris. Saltet tas bort för att minimera vätska under huden. Nu finslipas formen.",
+            diet: ["Torsk & Sparris", "Inget salt", "Grönt te"], 
+            workout: [{n: "Morgon-PW", v: "90 min"}, {n: "Dropset på allt", v: "4x12+Max"}] 
+        },
+        10: { 
+            phase: "Fas 3: Peak",
+            intro: "Mjölksyra är din bästa vän denna vecka. Högreps-träning för att tömma glykogenlagren totalt. Varje repetition ska bränna. Det är här viljan avgör allt.",
+            diet: ["Striktaste fasen", "Fokus: Makron", "Ingen sås"], 
+            workout: [{n: "Morgon-PW", v: "90 min"}, {n: "Högreps", v: "20-30 reps"}] 
+        },
+        11: { 
+            phase: "Fas 3: Peak",
+            intro: "Vätsketömningen påbörjas. Vi dricker enorma mängder vatten (5L+) för att lura kroppen att släppa på depåerna. Träningen är explosiv men kortare för att spara på energin.",
+            diet: ["Vätsketömning start", "Noll kolhydrat", "Vatten: 5L"], 
+            workout: [{n: "Morgon-PW", v: "90 min"}, {n: "Explosiv styrka", v: "6x3"}] 
+        },
+        12: { 
+            phase: "Fas 3: Peak",
+            intro: "Uthållighetstest. Ett milpass löpning på tom mage. Det kommer vara tungt, men du är i din bästa form någonsin. Visualisera slutresultatet vid varje steg.",
+            diet: ["Fortsatt tömning", "Ren protein", "Fokus"], 
+            workout: [{n: "Morgon-PW", v: "90 min"}, {n: "Uthållighet", v: "10km löpning"}] 
+        },
+        13: { 
+            phase: "Fas 4: Final",
+            intro: "Fas 4 handlar om presentation. Vi börjar ladda med lite kolhydrater (ris) för att musklerna ska se fylliga ut. Öva på din posing – det handlar om att visa upp resultatet nu.",
+            diet: ["Kolhydratsladdning", "Ris & Kyckling", "Strikt"], 
+            workout: [{n: "Morgon-PW", v: "60 min"}, {n: "Posing", v: "30 min"}] 
+        },
+        14: { 
+            phase: "Fas 4: Final",
+            intro: "HIIT-fokus. Vi vill hålla förbränningen på topp in i det sista. Var noggrann med vägningen och mätningarna denna vecka för att göra sista justeringarna.",
+            diet: ["Justeringsvecka", "Mät formen", "Vatten: 2L"], 
+            workout: [{n: "Morgon-PW", v: "60 min"}, {n: "HIIT", v: "45 min"}] 
+        },
+        15: { 
+            phase: "Fas 4: Final",
+            intro: "Sista tunga veckan. Nu drar vi ner på volymen i gymmet för att undvika skador och låta kroppen återhämta sig inför finalen. Fokusera på kontakt, inte tunga vikter.",
+            diet: ["Sista rycket", "Fokus på energi", "Vila"], 
+            workout: [{n: "Morgon-PW", v: "60 min"}, {n: "Lätt styrka", v: "3x15"}] 
+        },
+        16: { 
+            phase: "Fas 4: Final",
+            intro: "FINALEN! Du har gjort det. Vecka 16 handlar om att njuta av resan och ladda mentalt för fotografering/avslutning. Dra ner på cardion och fokusera på att må bra. Bra jobbat!",
+            diet: ["FINAL WEEK", "Toppform", "Grattis!"], 
+            workout: [{n: "Morgon-PW", v: "30 min"}, {n: "Mental laddning", v: "100%"}] 
+        }
     };
 
     const sidebar = document.getElementById('sidebar');
     const contentArea = document.getElementById('content-area');
 
-    // Initiera navigering
     for (let i = 1; i <= 16; i++) {
         const btn = document.createElement('button');
         btn.innerText = i;
@@ -230,6 +283,10 @@
                 <h1>VECKA ${weekNum}</h1>
             </div>
 
+            <div class="intro-box">
+                ${data.intro}
+            </div>
+
             <div class="section-title">Matschema & Kost</div>
             <div class="diet-container">
                 ${data.diet.map(item => `<div class="diet-card">${item}</div>`).join('')}
@@ -239,17 +296,14 @@
             <div class="workout-card">
                 ${data.workout.map(ex => `
                     <div class="exercise-row">
-                        <div class="ex-info">
-                            <span class="ex-name">${ex.n}</span>
-                        </div>
-                        <span class="ex-val">${ex.v}</span>
+                        <div class="ex-name">${ex.n}</div>
+                        <div class="ex-val">${ex.v}</div>
                     </div>
                 `).join('')}
             </div>
         `;
     }
 
-    // Starta på vecka 1
     loadWeek(1);
 </script>
 
