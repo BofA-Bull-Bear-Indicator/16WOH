@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>16 Weeks of Hell Tracker</title>
+    <style>
+        /* CSS för enkel och tydlig design */
+        body { font-family: sans-serif; background: #1a1a1a; color: white; padding: 20px; }
+        .container { max-width: 500px; margin: auto; background: #2a2a2a; padding: 20px; border-radius: 10px; }
+        h1 { color: #ff4d4d; text-align: center; }
+        .task { display: flex; align-items: center; justify-content: space-between; padding: 15px 0; border-bottom: 1px solid #444; }
+        input[type="checkbox"] { transform: scale(1.5); }
+        .progress-bar { background: #444; height: 20px; border-radius: 10px; margin: 20px 0; overflow: hidden; }
+        #fill { background: #ff4d4d; height: 100%; width: 0%; transition: width 0.3s; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Day <span id="day-number">1</span> / 112</h1>
+    
+    <div class="progress-bar">
+        <div id="fill"></div>
+    </div>
+
+    <div class="task">
+        <span>Morgonpromenad (60 min)</span>
+        <input type="checkbox" id="cardio" onclick="saveProgress()">
+    </div>
+    <div class="task">
+        <span>Gympass / Utmaning</span>
+        <input type="checkbox" id="gym" onclick="saveProgress()">
+    </div>
+    <div class="task">
+        <span>Följt kostschemat</span>
+        <input type="checkbox" id="diet" onclick="saveProgress()">
+    </div>
+
+    <p style="text-align: center; margin-top: 20px; color: #888;">
+        Datan sparas automatiskt i din webbläsare.
+    </p>
+</div>
+
+<script>
+    // JavaScript för att hantera data
+    const tasks = ['cardio', 'gym', 'diet'];
+
+    // Laddar sparad data när sidan öppnas
+    window.onload = function() {
+        tasks.forEach(task => {
+            const saved = localStorage.getItem(task);
+            if (saved === 'true') {
+                document.getElementById(task).checked = true;
+            }
+        });
+        updateProgressBar();
+    };
+
+    // Sparar status till localStorage
+    function saveProgress() {
+        tasks.forEach(task => {
+            const isChecked = document.getElementById(task).checked;
+            localStorage.setItem(task, isChecked);
+        });
+        updateProgressBar();
+    }
+
+    // Enkel funktion för att visa framsteg (baserat på dagens uppgifter)
+    function updateProgressBar() {
+        const checkedCount = tasks.filter(task => document.getElementById(task).checked).length;
+        const percentage = (checkedCount / tasks.length) * 100;
+        document.getElementById('fill').style.width = percentage + "%";
+    }
+</script>
+
+</body>
+</html>
